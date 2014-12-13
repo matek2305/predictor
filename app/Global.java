@@ -17,11 +17,6 @@ import javax.persistence.Persistence;
 public class Global extends GlobalSettings {
 
     /**
-     * The name of the persistence unit we will be using.
-     */
-    static final String DEFAULT_PERSISTENCE_UNIT = "default";
-
-    /**
      * Declare the application context to be used - a Java annotation based application context requiring no XML.
      */
     final private AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
@@ -71,9 +66,14 @@ public class Global extends GlobalSettings {
     @EnableJpaRepositories("models")
     public static class SpringDataJpaConfiguration {
 
+        /**
+         * The name of the persistence unit we will be using.
+         */
+        private static final String PERSISTENCE_UNIT_NAME = "PREDICTOR_PU";
+
         @Bean
         public EntityManagerFactory entityManagerFactory() {
-            return Persistence.createEntityManagerFactory(DEFAULT_PERSISTENCE_UNIT);
+            return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         }
 
         @Bean
