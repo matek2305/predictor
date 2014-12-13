@@ -6,7 +6,12 @@
     <persistence-unit name="PREDICTOR_PU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>PredictorDS</non-jta-data-source>
+        <class>models.Predictor</class>
         <class>models.Match</class>
+        <class>models.Prediction</class>
+        <class>models.Competition</class>
+        <class>models.PredictorPoints</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
         </properties>
