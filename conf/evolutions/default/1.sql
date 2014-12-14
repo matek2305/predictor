@@ -1,10 +1,7 @@
-# --- Created by Ebean DDL
-# To stop Ebean DDL generation, remove this comment and start using Evolutions
-
 # --- !Ups
 
 create table competition (
-  id                        bigint not null,
+  id                        serial not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   name                      varchar(255) not null,
@@ -14,7 +11,7 @@ create table competition (
 ;
 
 create table match (
-  id                        bigint not null,
+  id                        serial not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   home_team_name            varchar(255) not null,
@@ -29,7 +26,7 @@ create table match (
 ;
 
 create table prediction (
-  id                        bigint not null,
+  id                        serial not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   home_team_score           integer not null,
@@ -41,17 +38,18 @@ create table prediction (
 ;
 
 create table predictor (
-  id                        bigint not null,
+  id                        serial not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   login                     varchar(255) not null,
   password                  varchar(255) not null,
-  register_date             timestamp not null,
+  registration_date         timestamp not null,
+  constraint uq_login_predictor unique (login),
   constraint pk_predictor primary key (id))
 ;
 
 create table predictor_points (
-  id                        bigint not null,
+  id                        serial not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   predictor_id              bigint not null,

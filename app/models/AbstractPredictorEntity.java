@@ -15,20 +15,20 @@ public abstract class AbstractPredictorEntity {
      * ID.
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     /**
      * Entity creation datetime.
      */
-    @NotNull
+    @Column(name = "creation_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date creationDate;
 
     /**
      * Entity last update datetime.
      */
-    @NotNull
+    @Column(name = "last_update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date lastUpdateDate;
 }
