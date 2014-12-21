@@ -6,6 +6,10 @@ import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import play.Application;
 import play.GlobalSettings;
+import play.Logger;
+import play.Play;
+import play.db.jpa.JPA;
+import utils.dev.InitialDataManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,7 +23,12 @@ public class Global extends GlobalSettings {
     /**
      * Declare the application context to be used - a Java annotation based application context requiring no XML.
      */
-    final private AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+    private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+
+    /**
+     * Initial data manager (dev mode only).
+     */
+    private final InitialDataManager initialDataManager = new InitialDataManager();
 
     /**
      * Sync the context lifecycle with Play's.
@@ -37,6 +46,14 @@ public class Global extends GlobalSettings {
 
         // This will construct the beans and call any construction lifecycle methods e.g. @PostConstruct
         ctx.start();
+
+        if (Play.isDev()) {
+            Logger.debug("Loading initial data (Dev) ...");
+            JPA.withTransaction(() -> {
+                initialDataManager.dropData();
+                initialDataManager.inserData();
+            });
+        }
     }
 
     /**
@@ -44,6 +61,12 @@ public class Global extends GlobalSettings {
      */
     @Override
     public void onStop(final Application app) {
+
+        if (Play.isDev()) {
+            Logger.debug("Dropping initial data (Dev) ...");
+            JPA.withTransaction(() -> initialDataManager.dropData());
+        }
+
         // This will call any destruction lifecycle methods and then release the beans e.g. @PreDestroy
         ctx.close();
 

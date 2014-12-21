@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Hatake on 2014-12-13.
  */
 @Entity
+@Table(name = "match")
 public class Match extends AbstractPredictorEntity {
 
     /**

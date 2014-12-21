@@ -1,5 +1,7 @@
 package models;
 
+import utils.dev.InitialData;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.List;
  * Created by Hatake on 2014-12-13.
  */
 @Entity
+@Table(name = "predictor")
+@InitialData(name = "users", order = 1)
 public class Predictor extends AbstractPredictorEntity {
 
     /**

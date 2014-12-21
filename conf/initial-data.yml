@@ -1,0 +1,19 @@
+users:
+
+- &admin !!models.Predictor
+    id:                 1
+    login:              admin
+    password:           password
+    registrationDate:   2014-12-14
+
+- &mateusz !!models.Predictor
+    id:                 2
+    login:              mateusz
+    password:           password
+    registrationDate:   2014-12-14
+
+- &bartek !!models.Predictor
+    id:                 2
+    login:              bartek
+    password:           password
+    registrationDate:   2014-12-14

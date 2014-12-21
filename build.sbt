@@ -8,7 +8,7 @@ ebeanEnabled := false
 
 libraryDependencies ++= Seq(
     javaCore,
-    javaJpa,
+    javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
     "org.springframework" % "spring-context" % "4.1.3.RELEASE",
     "javax.inject" % "javax.inject" % "1",
     "org.springframework.data" % "spring-data-jpa" % "1.7.1.RELEASE",
