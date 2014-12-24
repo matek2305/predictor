@@ -1,7 +1,7 @@
 # --- !Ups
 
 create table competition (
-  id                        serial not null,
+  id                        bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   name                      varchar(255) not null,
@@ -11,7 +11,7 @@ create table competition (
 ;
 
 create table match (
-  id                        serial not null,
+  id                        bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   home_team_name            varchar(255) not null,
@@ -26,7 +26,7 @@ create table match (
 ;
 
 create table prediction (
-  id                        serial not null,
+  id                        bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   home_team_score           integer not null,
@@ -38,7 +38,7 @@ create table prediction (
 ;
 
 create table predictor (
-  id                        serial not null,
+  id                        bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   login                     varchar(255) not null,
@@ -49,7 +49,7 @@ create table predictor (
 ;
 
 create table predictor_points (
-  id                        serial not null,
+  id                        bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   predictor_id              bigint not null,

@@ -9,10 +9,13 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
+import play.mvc.Action;
+import play.mvc.Http;
 import utils.dev.InitialDataManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.lang.reflect.Method;
 
 /**
  * Application wide behaviour. We establish a Spring application context for the dependency injection system and
@@ -48,11 +51,12 @@ public class Global extends GlobalSettings {
         ctx.start();
 
         if (Play.isDev()) {
-            Logger.debug("Loading initial data (Dev) ...");
+            Logger.debug("[DEV] Loading initial data ...");
             JPA.withTransaction(() -> {
                 initialDataManager.dropData();
                 initialDataManager.inserData();
             });
+            Logger.debug("[DEV] Initial data loaded.");
         }
     }
 
@@ -63,7 +67,7 @@ public class Global extends GlobalSettings {
     public void onStop(final Application app) {
 
         if (Play.isDev()) {
-            Logger.debug("Dropping initial data (Dev) ...");
+            Logger.debug("[DEV] Dropping data ...");
             JPA.withTransaction(() -> initialDataManager.dropData());
         }
 

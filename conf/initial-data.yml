@@ -13,7 +13,7 @@ users:
     registrationDate:   2014-12-14
 
 - &bartek !!models.Predictor
-    id:                 2
+    id:                 3
     login:              bartek
     password:           password
     registrationDate:   2014-12-14

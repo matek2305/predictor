@@ -6,6 +6,7 @@ import play.db.jpa.JPA;
 import play.libs.Yaml;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.*;
 
 import static java.lang.String.format;
@@ -42,8 +43,6 @@ public class InitialDataManager {
     }
 
     private void insertData(InitialDataWrapper data) {
-        Logger.debug(format("%s: inserting initial data ...", data.getTarget().getSimpleName()));
-
         List<Object> entities = getDataMap(data.getData()).get(data.getData().name());
         persist(entities);
 
@@ -52,7 +51,7 @@ public class InitialDataManager {
 
     private <T> void persist(List<T> entities) {
         for (T entity : entities) {
-            JPA.em().merge(entity);
+            JPA.em().persist(entity);
         }
     }
 
@@ -73,11 +72,11 @@ public class InitialDataManager {
     }
 
     private void dropData(InitialDataWrapper data) {
-        String query = format(DROP_DATA_FROM_TABLE_PATTERN, data.getTarget().getSimpleName());
+        String table = getTableName(data.getTarget());
+        String query = format(DROP_DATA_FROM_TABLE_PATTERN, table);
 
-        Logger.debug(format("%s: dropping data", data.getTarget().getSimpleName()));
         int droppedCount = JPA.em().createNativeQuery(query).executeUpdate();
-        Logger.debug(format("%s: dropped %s rows", data.getTarget().getSimpleName(), droppedCount));
+        Logger.debug(format("%s [%s]: dropped %s rows", data.getTarget().getSimpleName(), table, droppedCount));
     }
 
     private Map<String, List<Object>> getDataMap(InitialData initialData) {
@@ -87,6 +86,15 @@ public class InitialDataManager {
         }
 
         return filesDataMap.get(initialData.fileName());
+    }
+
+    private String getTableName(Class<?> entityClass) {
+        if (entityClass.isAnnotationPresent(Table.class)) {
+            return entityClass.getAnnotation(Table.class).name();
+        }
+
+        Logger.warn(format("No table name specified for %s entity, using default.", entityClass.getSimpleName()));
+        return entityClass.getSimpleName();
     }
 
     private static class InitialDataWrapper {

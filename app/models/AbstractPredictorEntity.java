@@ -15,7 +15,6 @@ public abstract class AbstractPredictorEntity {
      * ID.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     /**
