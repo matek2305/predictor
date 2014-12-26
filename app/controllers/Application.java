@@ -1,5 +1,7 @@
 package controllers;
 
+import controllers.validation.RegisterUserValidator;
+import controllers.validation.Validate;
 import models.Predictor;
 import models.PredictorRepository;
 import play.libs.Json;
@@ -25,6 +27,7 @@ public class Application extends Controller {
         return ok(views.html.index.render("Predictor"));
     }
 
+    @Validate(RegisterUserValidator.class)
     public Result registerUser() {
         Predictor user = Json.fromJson(request().body().asJson(), Predictor.class);
         user.registrationDate = new Date();

@@ -1,3 +1,6 @@
+import controllers.validation.BusinessValidator;
+import controllers.validation.Validate;
+import controllers.validation.ValidationResult;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,13 +12,17 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
+import play.libs.F;
+import play.libs.Json;
 import play.mvc.Action;
 import play.mvc.Http;
+import play.mvc.SimpleResult;
 import utils.dev.InitialDataManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Application wide behaviour. We establish a Spring application context for the dependency injection system and
@@ -77,6 +84,18 @@ public class Global extends GlobalSettings {
         super.onStop(app);
     }
 
+    @Override
+    public Action onRequest(Http.Request request, Method method) {
+        if (method.isAnnotationPresent(Validate.class)) {
+            Validate annotation = method.getAnnotation(Validate.class);
+            BusinessValidator validator = ctx.getBean(annotation.value());
+            if (!validator.validate(Json.fromJson(request.body().asJson(), validator.getInputDataClass()))) {
+                return ValidationFailed.fromResult(validator.getResult());
+            }
+        }
+        return super.onRequest(request, method);
+    }
+
     /**
      * Controllers must be resolved through the application context. There is a special method of GlobalSettings
      * that we can override to resolve a given controller. This resolution is required by the Play router.
@@ -111,6 +130,27 @@ public class Global extends GlobalSettings {
         @Bean
         public JpaTransactionManager transactionManager() {
             return new JpaTransactionManager();
+        }
+    }
+
+    /**
+     * Validation failed action.
+     */
+    public static class ValidationFailed extends Action {
+
+        public static ValidationFailed fromResult(ValidationResult result) {
+            return new ValidationFailed(result);
+        }
+
+        private ValidationResult result;
+
+        private ValidationFailed(ValidationResult result) {
+            this.result = result;
+        }
+
+        @Override
+        public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
+            return F.Promise.pure((SimpleResult) badRequest(Json.toJson(result)));
         }
     }
 }
