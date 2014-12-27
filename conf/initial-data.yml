@@ -17,3 +17,94 @@ users:
     login:              bartek
     password:           password
     registrationDate:   2014-12-14
+
+- &zdzichu !!models.Predictor
+    id:                 4
+    login:              zdzichu
+    password:           password
+    registrationDate:   2014-12-14
+
+competition:
+
+- &lm1415 !!models.Competition
+    id:                 1
+    name:               Liga Mistrzów 2014/15
+    admin:              *mateusz
+
+matches:
+
+- &psgcfc !!models.Match
+    id:                 1
+    homeTeamName:       Paris Saint-Germain F.C.
+    awayTeamName:       Chelsea F.C.
+    startDate:          2015-02-17 20:45:00.000
+    status:             OPEN_FOR_PREDICTION
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
+
+- &mcifcb !!models.Match
+    id:                 2
+    homeTeamName:       Manchester City
+    awayTeamName:       FC Barcelona
+    startDate:          2015-02-24 20:45:00.000
+    status:             OPEN_FOR_PREDICTION
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
+
+- &s04cfc !!models.Match
+    id:                 3
+    homeTeamName:       Schalke 04
+    awayTeamName:       Chelsea F.C.
+    startDate:          2014-11-25 20:45:00.000
+    status:             RESULT_AVAILABLE
+    competition:        *lm1415
+    homeTeamScore:      0
+    awayTeamScore:      5
+
+points:
+
+- !!models.PredictorPoints
+    id:                 1
+    predictor:          *mateusz
+    competition:        *lm1415
+    points:             23
+
+- !!models.PredictorPoints
+    id:                 2
+    predictor:          *bartek
+    competition:        *lm1415
+    points:             27
+
+- !!models.PredictorPoints
+    id:                 3
+    predictor:          *zdzichu
+    competition:        *lm1415
+    points:             16
+
+predictions:
+
+- !!models.Prediction
+    id:                 1
+    homeTeamScore:      1
+    awayTeamScore:      3
+    points:             3
+    match:              *s04cfc
+    predictor:          *mateusz
+
+- !!models.Prediction
+    id:                 2
+    homeTeamScore:      0
+    awayTeamScore:      2
+    points:             3
+    match:              *s04cfc
+    predictor:          *bartek
+
+- !!models.Prediction
+    id:                 3
+    homeTeamScore:      0
+    awayTeamScore:      1
+    points:             0
+    match:              *psgcfc
+    predictor:          *mateusz

@@ -31,7 +31,7 @@ create table prediction (
   last_update_date          timestamp not null,
   home_team_score           integer not null,
   away_team_score           integer not null,
-  points                    integer,
+  points                    integer default 0,
   match_id                  bigint not null,
   predictor_id              bigint not null,
   constraint pk_prediction primary key (id))

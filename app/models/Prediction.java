@@ -1,5 +1,8 @@
 package models;
 
+import utils.dev.InitialData;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,23 +13,25 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "prediction")
+@InitialData(name = "predictions", order = 5)
 public class Prediction extends AbstractPredictorEntity {
 
     /**
      * Home team score prediction.
      */
-    @NotNull
+    @Column(name = "home_team_score", nullable = false)
     public int homeTeamScore;
 
     /**
      * Away team score prediction.
      */
-    @NotNull
+    @Column(name = "away_team_score", nullable = false)
     public int awayTeamScore;
 
     /**
      * Points for this prediction.
      */
+    @Column(columnDefinition = "integer default 0", nullable = false)
     public int points;
 
     /**

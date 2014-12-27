@@ -1,5 +1,7 @@
 package models;
 
+import utils.dev.InitialData;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -10,36 +12,37 @@ import java.util.List;
  */
 @Entity
 @Table(name = "match")
+@InitialData(name = "matches", order = 3)
 public class Match extends AbstractPredictorEntity {
 
     /**
      * Home team name.
      */
-    @NotNull
+    @Column(name = "home_team_name", nullable = false)
     public String homeTeamName;
 
     /**
      * Away team team;
      */
-    @NotNull
+    @Column(name = "away_team_name", nullable = false)
     public String awayTeamName;
 
     /**
      * Home team score (-1 if not available).
      */
-    @Column(columnDefinition = "integer default -1")
+    @Column(name = "home_team_score", columnDefinition = "integer default -1")
     public int homeTeamScore;
 
     /**
      * Away team score (-1 if not available).
      */
-    @Column(columnDefinition = "integer default -1")
+    @Column(name = "away_team_score", columnDefinition = "integer default -1")
     public int awayTeamScore;
 
     /**
      * Start date.
      */
-    @NotNull
+    @Column(name = "start_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date startDate;
 

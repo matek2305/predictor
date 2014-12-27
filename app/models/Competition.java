@@ -1,5 +1,7 @@
 package models;
 
+import utils.dev.InitialData;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -12,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "competition")
+@InitialData(name = "competition", order = 2)
 public class Competition extends AbstractPredictorEntity {
 
     /**

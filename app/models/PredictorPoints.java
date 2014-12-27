@@ -1,5 +1,7 @@
 package models;
 
+import utils.dev.InitialData;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "predictor_points")
+@InitialData(name = "points", order = 4)
 public class PredictorPoints extends AbstractPredictorEntity {
 
     /**
