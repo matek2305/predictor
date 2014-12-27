@@ -4,9 +4,11 @@
 
 # Main page
 GET         /                             @controllers.Application.index
+
+# User services
 POST        /user                         @controllers.Application.registerUser
 
-# Competition controller
+# Competition services
 GET         /competition/:id/table        @controllers.CompetitionController.buildTable(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path

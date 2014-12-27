@@ -1,6 +1,8 @@
 package controllers;
 
+import models.Competition;
 import models.CompetitionRepository;
+import models.dto.CompetitionTable;
 import models.dto.CompetitionTableRow;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -22,7 +24,13 @@ public class CompetitionController extends Controller {
     private CompetitionRepository competitionRepository;
 
     public Result buildTable(Long competitionId) {
+        Competition competition = competitionRepository.findOne(competitionId);
+        if (competition == null) {
+            return notFound("Competition not found!");
+        }
+
         List<CompetitionTableRow> content = competitionRepository.findTableRowsById(competitionId);
-        return ok(Json.toJson(content));
+        CompetitionTable table = new CompetitionTable(competition.name, content);
+        return ok(Json.toJson(table));
     }
 }
