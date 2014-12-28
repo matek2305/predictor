@@ -35,6 +35,19 @@ public class Predictor extends AbstractPredictorEntity {
     public Date registrationDate;
 
     /**
+     * User authentication token.
+     */
+    @Column(name = "auth_token")
+    public String authenticationToken;
+
+    /**
+     * Authentication token expiration date.
+     */
+    @Column(name = "token_exp_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date tokenExpirationDate;
+
+    /**
      * Predictor point in all competitions that he participating in.
      */
     @OneToMany

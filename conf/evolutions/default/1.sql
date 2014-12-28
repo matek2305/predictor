@@ -44,6 +44,8 @@ create table predictor (
   login                     varchar(255) not null,
   password                  varchar(255) not null,
   registration_date         timestamp not null,
+  auth_token                varchar(32),
+  token_exp_date            timestamp,
   constraint uq_login_predictor unique (login),
   constraint pk_predictor primary key (id))
 ;

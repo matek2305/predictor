@@ -22,7 +22,9 @@ import utils.dev.InitialDataManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.lang.reflect.Method;
-import java.util.List;
+
+import static controllers.Application.PREDICTOR_STATUS_REASON_HEADER;
+import static controllers.Application.VALIDATION_FAILED;
 
 /**
  * Application wide behaviour. We establish a Spring application context for the dependency injection system and
@@ -150,6 +152,7 @@ public class Global extends GlobalSettings {
 
         @Override
         public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
+            context.response().setHeader(PREDICTOR_STATUS_REASON_HEADER, VALIDATION_FAILED);
             return F.Promise.pure((SimpleResult) badRequest(Json.toJson(result)));
         }
     }

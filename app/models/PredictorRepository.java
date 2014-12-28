@@ -1,8 +1,11 @@
 package models;
 
+import models.dto.AuthenticationDetails;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Hatake on 2014-12-13.
@@ -11,5 +14,11 @@ import java.util.List;
 @Singleton
 public interface PredictorRepository extends PredictorCrudRepository<Predictor> {
 
-    List<Predictor> findByLogin(String login);
+    Optional<Predictor> findByLogin(String login);
+
+    Optional<Predictor> findByLoginAndPassword(String login, String password);
+
+    default Optional<Predictor> findByLoginAndPassword(AuthenticationDetails authenticationDetails) {
+        return findByLoginAndPassword(authenticationDetails.getLogin(), authenticationDetails.getPassword());
+    }
 }

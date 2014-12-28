@@ -16,5 +16,6 @@ libraryDependencies ++= Seq(
     "org.hibernate" % "hibernate-entitymanager" % "4.3.7.Final",
     "postgresql" % "postgresql" % "9.1-901.jdbc4",
     "org.apache.commons" % "commons-math3" % "3.3",
+    "org.apache.commons" % "commons-lang3" % "3.3.2",
     "org.mockito" % "mockito-core" % "1.9.5" % "test"
 )

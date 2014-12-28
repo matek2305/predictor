@@ -7,6 +7,7 @@ GET         /                             @controllers.Application.index
 
 # User services
 POST        /user                         @controllers.Application.registerUser
+POST        /login                        @controllers.Application.autheticateUser
 
 # Competition services
 GET         /competition/:id/table        @controllers.CompetitionController.buildTable(id: Long)
