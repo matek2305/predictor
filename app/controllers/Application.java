@@ -6,9 +6,11 @@ import models.Predictor;
 import models.PredictorRepository;
 import models.dto.AuthenticationDetails;
 import org.apache.commons.lang3.RandomStringUtils;
+import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.dev.PredictorSettings;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,7 +30,6 @@ public class Application extends Controller {
     public static final String VALIDATION_FAILED = "Validation failed";
 
     private static final long ONE_MINUTE_IN_MILLIS = 60000;
-    private static final int TOKEN_EXP_TIME_IN_MINUTES = 15;
 
     @Inject
     private PredictorRepository predictorRepository;
@@ -52,7 +53,8 @@ public class Application extends Controller {
 
             // TODO: change to java 8 datetime api
             long currentTimeInMillis = new Date().getTime();
-            predictor.get().tokenExpirationDate = new Date(currentTimeInMillis + (TOKEN_EXP_TIME_IN_MINUTES * ONE_MINUTE_IN_MILLIS));
+            int expirationTime = Play.application().configuration().getInt(PredictorSettings.AUTH_TOKEN_EXPIRATION_DATE);
+            predictor.get().tokenExpirationDate = new Date(currentTimeInMillis + (expirationTime * ONE_MINUTE_IN_MILLIS));
 
             return created(predictorRepository.save(predictor.get()).authenticationToken);
         }
