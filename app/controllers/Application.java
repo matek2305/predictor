@@ -10,16 +10,20 @@ import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import utils.dev.PredictorSettings;
+import utils.DateHelper;
+import utils.PredictorSettings;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
 /**
- * The main set of web services.
+ * Basic services controller.
+ *
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 @Singleton
@@ -29,7 +33,7 @@ public class Application extends Controller {
     public static final String AUTHENTICATION_FAILED = "Authentication failed";
     public static final String VALIDATION_FAILED = "Validation failed";
 
-    private static final long ONE_MINUTE_IN_MILLIS = 60000;
+    private static final int AUTH_TOKEN_LENGTH = 32;
 
     @Inject
     private PredictorRepository predictorRepository;
@@ -49,17 +53,18 @@ public class Application extends Controller {
         AuthenticationDetails authenticationDetails = Json.fromJson(request().body().asJson(), AuthenticationDetails.class);
         Optional<Predictor> predictor = predictorRepository.findByLoginAndPassword(authenticationDetails);
         if (predictor.isPresent()) {
-            predictor.get().authenticationToken = RandomStringUtils.randomAlphanumeric(32);
-
-            // TODO: change to java 8 datetime api
-            long currentTimeInMillis = new Date().getTime();
-            int expirationTime = Play.application().configuration().getInt(PredictorSettings.AUTH_TOKEN_EXPIRATION_DATE);
-            predictor.get().tokenExpirationDate = new Date(currentTimeInMillis + (expirationTime * ONE_MINUTE_IN_MILLIS));
-
+            predictor.get().authenticationToken = RandomStringUtils.randomAlphanumeric(AUTH_TOKEN_LENGTH);
+            predictor.get().tokenExpirationDate = calculateTokenExpirationDate();
             return created(predictorRepository.save(predictor.get()).authenticationToken);
         }
 
         response().setHeader(PREDICTOR_STATUS_REASON_HEADER, AUTHENTICATION_FAILED);
         return badRequest();
+    }
+
+    private Date calculateTokenExpirationDate() {
+        int expirationTime = Play.application().configuration().getInt(PredictorSettings.AUTH_TOKEN_EXPIRATION_DATE);
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(expirationTime);
+        return DateHelper.toDate(expirationDate);
     }
 }

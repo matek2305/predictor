@@ -1,7 +1,9 @@
-package utils.dev;
+package utils;
 
 /**
- * Created by Hatake on 2014-12-28.
+ * Predictor settings.
+ *
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public final class PredictorSettings {
 
