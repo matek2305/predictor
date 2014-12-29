@@ -7,6 +7,7 @@ import models.dto.CompetitionTableRow;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.BusinessLogic;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,6 +24,7 @@ public class CompetitionController extends Controller {
     @Inject
     private CompetitionRepository competitionRepository;
 
+    @BusinessLogic
     public Result buildTable(Long competitionId) {
         Competition competition = competitionRepository.findOne(competitionId);
         if (competition == null) {

@@ -18,6 +18,8 @@ public interface PredictorRepository extends PredictorCrudRepository<Predictor> 
 
     Optional<Predictor> findByLoginAndPassword(String login, String password);
 
+    Optional<Predictor> findByAuthenticationToken(String token);
+
     default Optional<Predictor> findByLoginAndPassword(AuthenticationDetails authenticationDetails) {
         return findByLoginAndPassword(authenticationDetails.getLogin(), authenticationDetails.getPassword());
     }

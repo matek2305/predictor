@@ -5,9 +5,7 @@ package controllers.validation;
  */
 public interface BusinessValidator<T> {
 
-    boolean validate(T data);
+    ValidationResult validate(T data);
 
     Class<T> getInputDataClass();
-
-    ValidationResult getResult();
 }

@@ -16,6 +16,10 @@ public class ValidationResult {
         this.messages.get(key).add(msg);
     }
 
+    public boolean success() {
+        return messages.isEmpty();
+    }
+
     public Map<String, List<String>> getMessages() {
         return messages;
     }

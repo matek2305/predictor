@@ -1,6 +1,7 @@
 import controllers.validation.BusinessValidator;
-import controllers.validation.Validate;
+import controllers.validation.EmptyValidator;
 import controllers.validation.ValidationResult;
+import models.PredictorRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,19 +13,17 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
-import play.libs.F;
 import play.libs.Json;
 import play.mvc.Action;
 import play.mvc.Http;
-import play.mvc.SimpleResult;
+import utils.BadRequestAction;
+import utils.BusinessLogic;
+import utils.PredictorSecurity;
 import utils.dev.InitialDataManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.lang.reflect.Method;
-
-import static controllers.Application.PREDICTOR_STATUS_REASON_HEADER;
-import static controllers.Application.VALIDATION_FAILED;
 
 /**
  * Application wide behaviour. We establish a Spring application context for the dependency injection system and
@@ -41,6 +40,11 @@ public class Global extends GlobalSettings {
      * Initial data manager (dev mode only).
      */
     private final InitialDataManager initialDataManager = new InitialDataManager();
+
+    /**
+     * Predictor security util.
+     */
+    private PredictorSecurity predictorSecurity;
 
     /**
      * Sync the context lifecycle with Play's.
@@ -88,14 +92,48 @@ public class Global extends GlobalSettings {
 
     @Override
     public Action onRequest(Http.Request request, Method method) {
-        if (method.isAnnotationPresent(Validate.class)) {
-            Validate annotation = method.getAnnotation(Validate.class);
-            BusinessValidator validator = ctx.getBean(annotation.value());
-            if (!validator.validate(Json.fromJson(request.body().asJson(), validator.getInputDataClass()))) {
-                return ValidationFailed.fromResult(validator.getResult());
-            }
+        if (!method.isAnnotationPresent(BusinessLogic.class)) {
+            return super.onRequest(request, method);
         }
+
+        BusinessLogic businessLogic = method.getAnnotation(BusinessLogic.class);
+        if (!businessLogic.authenticate() && businessLogic.validator().equals(EmptyValidator.class)) {
+            return super.onRequest(request, method);
+        }
+
+        if (!businessLogic.authenticate()) {
+            ValidationResult result = validate(request, businessLogic);
+            if (!result.success()) {
+                return BadRequestAction.fromValidationResult(result);
+            }
+
+            return super.onRequest(request, method);
+        }
+
+        if (predictorSecurity == null) {
+            predictorSecurity = new PredictorSecurity(ctx.getBean(PredictorRepository.class));
+        }
+
+        PredictorSecurity.Status status = predictorSecurity.authenticateRequest(request);
+        if (status != PredictorSecurity.Status.SUCCESS) {
+            return BadRequestAction.fromAuthenticationStatus(status);
+        }
+
+        if (businessLogic.validator().equals(EmptyValidator.class)) {
+            return super.onRequest(request, method);
+        }
+
+        ValidationResult result = validate(request, businessLogic);
+        if (!result.success()) {
+            return BadRequestAction.fromValidationResult(result);
+        }
+
         return super.onRequest(request, method);
+    }
+
+    private ValidationResult validate(Http.Request request, BusinessLogic logic) {
+        BusinessValidator validator = ctx.getBean(logic.validator());
+        return validator.validate(Json.fromJson(request.body().asJson(), validator.getInputDataClass()));
     }
 
     /**
@@ -132,28 +170,6 @@ public class Global extends GlobalSettings {
         @Bean
         public JpaTransactionManager transactionManager() {
             return new JpaTransactionManager();
-        }
-    }
-
-    /**
-     * Validation failed action.
-     */
-    public static class ValidationFailed extends Action {
-
-        public static ValidationFailed fromResult(ValidationResult result) {
-            return new ValidationFailed(result);
-        }
-
-        private ValidationResult result;
-
-        private ValidationFailed(ValidationResult result) {
-            this.result = result;
-        }
-
-        @Override
-        public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
-            context.response().setHeader(PREDICTOR_STATUS_REASON_HEADER, VALIDATION_FAILED);
-            return F.Promise.pure((SimpleResult) badRequest(Json.toJson(result)));
         }
     }
 }

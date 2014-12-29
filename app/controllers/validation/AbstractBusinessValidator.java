@@ -10,10 +10,10 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator<
     private final ValidationResult result = new ValidationResult();
 
     @Override
-    public final boolean validate(T data) {
+    public final ValidationResult validate(T data) {
         result.getMessages().clear();
         validationLogic(data);
-        return result.getMessages().isEmpty();
+        return result;
     }
 
     @Override
@@ -26,10 +26,5 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator<
 
     protected void addMessage(String key, String msg) {
         result.addMessage(key, msg);
-    }
-
-    @Override
-    public ValidationResult getResult() {
-        return result;
     }
 }
