@@ -13,7 +13,6 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
-import play.libs.Json;
 import play.mvc.Action;
 import play.mvc.Http;
 import utils.BadRequestAction;
@@ -26,8 +25,9 @@ import javax.persistence.Persistence;
 import java.lang.reflect.Method;
 
 /**
- * Application wide behaviour. We establish a Spring application context for the dependency injection system and
- * configure Spring Data.
+ * Application wide behaviour.
+ * We establish a Spring application context for the dependency injection system and configure Spring Data.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public class Global extends GlobalSettings {
 
@@ -45,6 +45,11 @@ public class Global extends GlobalSettings {
      * Predictor security util.
      */
     private PredictorSecurity predictorSecurity;
+
+    /**
+     * Current request business logic.
+     */
+    private BusinessLogic currentLogic;
 
     /**
      * Sync the context lifecycle with Play's.
@@ -93,21 +98,16 @@ public class Global extends GlobalSettings {
     @Override
     public Action onRequest(Http.Request request, Method method) {
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
+            throw new SecurityException(method.getName() + " method not marked with @BusinessLogic annotation!");
+        }
+
+        currentLogic = method.getAnnotation(BusinessLogic.class);
+        if (!currentLogic.authenticate() && currentLogic.validator().equals(EmptyValidator.class)) {
             return super.onRequest(request, method);
         }
 
-        BusinessLogic businessLogic = method.getAnnotation(BusinessLogic.class);
-        if (!businessLogic.authenticate() && businessLogic.validator().equals(EmptyValidator.class)) {
-            return super.onRequest(request, method);
-        }
-
-        if (!businessLogic.authenticate()) {
-            ValidationResult result = validate(request, businessLogic);
-            if (!result.success()) {
-                return BadRequestAction.fromValidationResult(result);
-            }
-
-            return super.onRequest(request, method);
+        if (!currentLogic.authenticate()) {
+            return validate(request, method);
         }
 
         if (predictorSecurity == null) {
@@ -119,21 +119,17 @@ public class Global extends GlobalSettings {
             return BadRequestAction.fromAuthenticationStatus(status);
         }
 
-        if (businessLogic.validator().equals(EmptyValidator.class)) {
+        if (currentLogic.validator().equals(EmptyValidator.class)) {
             return super.onRequest(request, method);
         }
 
-        ValidationResult result = validate(request, businessLogic);
-        if (!result.success()) {
-            return BadRequestAction.fromValidationResult(result);
-        }
-
-        return super.onRequest(request, method);
+        return validate(request, method);
     }
 
-    private ValidationResult validate(Http.Request request, BusinessLogic logic) {
-        BusinessValidator validator = ctx.getBean(logic.validator());
-        return validator.validate(Json.fromJson(request.body().asJson(), validator.getInputDataClass()));
+    private Action validate(Http.Request request, Method method) {
+        BusinessValidator validator = ctx.getBean(currentLogic.validator());
+        ValidationResult result =  validator.validate(request);
+        return result.success() ? super.onRequest(request, method) : BadRequestAction.fromValidationResult(result);
     }
 
     /**

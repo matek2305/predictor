@@ -15,15 +15,21 @@ import javax.inject.Singleton;
 import java.util.List;
 
 /**
- * Created by Hatake on 2014-12-27.
+ * Competition services controller.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 @Singleton
-public class CompetitionController extends Controller {
+public class CompetitionServices extends PredictorServicesController {
 
     @Inject
     private CompetitionRepository competitionRepository;
 
+    /**
+     * Current competition table service.
+     * @param competitionId competition id
+     * @return current standings
+     */
     @BusinessLogic
     public Result buildTable(Long competitionId) {
         Competition competition = competitionRepository.findOne(competitionId);

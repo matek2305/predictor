@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 
 /**
  * Business logic mark.
- *
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,7 +20,7 @@ public @interface BusinessLogic {
      * Business validator for marked method.
      * @return
      */
-    public Class<? extends BusinessValidator<?>> validator() default EmptyValidator.class;
+    public Class<? extends BusinessValidator> validator() default EmptyValidator.class;
 
     /**
      * Value defining whether authentication is required for marked method or not.

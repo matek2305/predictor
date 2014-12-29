@@ -1,11 +1,26 @@
 package controllers.validation;
 
+import models.Predictor;
+import play.mvc.Http;
+
+import java.util.Optional;
+
 /**
- * Created by Hatake on 2014-12-25.
+ * Business validator interface.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
-public interface BusinessValidator<T> {
+public interface BusinessValidator {
 
-    ValidationResult validate(T data);
+    /**
+     * Starts validation of given request.
+     * @param request request
+     * @return validation result
+     */
+    ValidationResult validate(Http.Request request);
 
-    Class<T> getInputDataClass();
+    /**
+     * Returns current user (if any).
+     * @return user instance
+     */
+    Optional<Predictor> getCurrentUser();
 }

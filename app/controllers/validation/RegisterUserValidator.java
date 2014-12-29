@@ -7,18 +7,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Created by Hatake on 2014-12-25.
+ * Validator for {@link controllers.PredictorServices#registerUser()} business logic.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 public class RegisterUserValidator extends AbstractBusinessValidator<Predictor> {
 
-    @Inject
-    private PredictorRepository predictorRepository;
-
     @Override
-    protected void validationLogic(Predictor predictor) {
-        if (predictorRepository.findByLogin(predictor.login).isPresent()) {
-            addMessage(predictor.login, "nazwa użytkownika jest już zajęta");
+    protected void validationLogic() {
+        if (getPredictorRepository().findByLogin(getInputData().login).isPresent()) {
+            addMessage(getInputData().login, "nazwa użytkownika jest już zajęta");
         }
     }
 }

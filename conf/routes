@@ -3,14 +3,14 @@
 # ~~~~
 
 # Main page
-GET         /                             @controllers.Application.index
+GET         /                             @controllers.PredictorServices.index
 
 # User services
-POST        /user                         @controllers.Application.registerUser
-POST        /login                        @controllers.Application.autheticateUser
+POST        /user                         @controllers.PredictorServices.registerUser
+POST        /login                        @controllers.PredictorServices.autheticateUser
 
 # Competition services
-GET         /competition/:id/table        @controllers.CompetitionController.buildTable(id: Long)
+GET         /competition/:id/table        @controllers.CompetitionServices.buildTable(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                 controllers.Assets.at(path="/public", file)

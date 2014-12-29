@@ -1,14 +1,24 @@
 package controllers.validation;
 
-import javax.inject.Named;
+import models.Predictor;
+import play.mvc.Http;
+
+import java.util.Optional;
 
 /**
+ * Default validator (does nothing).
+ * Should never be called.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
-@Named
-public class EmptyValidator extends AbstractBusinessValidator<Object> {
+public abstract class EmptyValidator implements BusinessValidator {
 
     @Override
-    protected void validationLogic(Object data) {
+    public ValidationResult validate(Http.Request request) {
+        throw new IllegalStateException("EmptyValidator called!");
+    }
+
+    @Override
+    public Optional<Predictor> getCurrentUser() {
+        throw new IllegalStateException("EmptyValidator called!");
     }
 }

@@ -3,7 +3,8 @@ package controllers.validation;
 import java.util.*;
 
 /**
- * Created by Hatake on 2014-12-26.
+ * Validation result wrapper.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public class ValidationResult {
 
