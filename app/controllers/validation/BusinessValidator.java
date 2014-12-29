@@ -19,8 +19,8 @@ public interface BusinessValidator {
     ValidationResult validate(Http.Request request);
 
     /**
-     * Returns current user (if any).
+     * Returns current user.
      * @return user instance
      */
-    Optional<Predictor> getCurrentUser();
+    Predictor getCurrentUser();
 }

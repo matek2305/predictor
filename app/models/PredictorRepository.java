@@ -1,14 +1,13 @@
 package models;
 
-import models.dto.AuthenticationDetails;
+import models.dto.PredictorDetails;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by Hatake on 2014-12-13.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 @Singleton
@@ -20,7 +19,7 @@ public interface PredictorRepository extends PredictorCrudRepository<Predictor> 
 
     Optional<Predictor> findByAuthenticationToken(String token);
 
-    default Optional<Predictor> findByLoginAndPassword(AuthenticationDetails authenticationDetails) {
-        return findByLoginAndPassword(authenticationDetails.getLogin(), authenticationDetails.getPassword());
+    default Optional<Predictor> findByPredictorDetails(PredictorDetails predictorDetails) {
+        return findByLoginAndPassword(predictorDetails.getLogin(), predictorDetails.getPassword());
     }
 }

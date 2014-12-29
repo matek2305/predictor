@@ -3,6 +3,7 @@ package controllers;
 import models.Predictor;
 import models.PredictorRepository;
 import org.apache.commons.lang3.StringUtils;
+import play.libs.Json;
 import play.mvc.Controller;
 
 import javax.inject.Inject;
@@ -18,10 +19,14 @@ public abstract class PredictorServicesController extends Controller {
 
     protected Predictor getCurrentUser() {
         if (StringUtils.isBlank(request().username())) {
-            return null;
+            throw new IllegalStateException("getCurrentUser() called with no username in request!");
         }
         
-        return predictorRepository.findByLogin(request().username()).orElse(null);
+        return predictorRepository.findByLogin(request().username()).get();
+    }
+
+    protected <T> T prepareRequest(Class<T> type) {
+        return Json.fromJson(request().body().asJson(), type);
     }
 
     protected PredictorRepository getPredictorRepository() {

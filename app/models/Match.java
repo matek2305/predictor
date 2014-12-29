@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import utils.dev.InitialData;
 
 import javax.persistence.*;
@@ -49,6 +50,7 @@ public class Match extends AbstractPredictorEntity {
     /**
      * Current status.
      */
+    @JsonIgnore
     @NotNull
     @Enumerated(EnumType.STRING)
     public Status status;
@@ -56,6 +58,7 @@ public class Match extends AbstractPredictorEntity {
     /**
      * Competition.
      */
+    @JsonIgnore
     @NotNull
     @ManyToOne
     public Competition competition;
@@ -63,6 +66,7 @@ public class Match extends AbstractPredictorEntity {
     /**
      * Lists of predictions for this match.
      */
+    @JsonIgnore
     @OneToMany
     public List<Prediction> predictions;
 

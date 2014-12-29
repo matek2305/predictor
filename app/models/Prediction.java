@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import utils.dev.InitialData;
 
 import javax.persistence.Column;

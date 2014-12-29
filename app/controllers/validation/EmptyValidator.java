@@ -18,7 +18,7 @@ public abstract class EmptyValidator implements BusinessValidator {
     }
 
     @Override
-    public Optional<Predictor> getCurrentUser() {
+    public Predictor getCurrentUser() {
         throw new IllegalStateException("EmptyValidator called!");
     }
 }

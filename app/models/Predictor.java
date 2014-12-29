@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import utils.dev.InitialData;
 
 import javax.persistence.*;
@@ -24,12 +25,14 @@ public class Predictor extends AbstractPredictorEntity {
     /**
      * User password hash (MD5).
      */
+    @JsonIgnore
     @NotNull
     public String password;
 
     /**
      * User registration date (with time).
      */
+    @JsonIgnore
     @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date registrationDate;
@@ -37,12 +40,14 @@ public class Predictor extends AbstractPredictorEntity {
     /**
      * User authentication token.
      */
+    @JsonIgnore
     @Column(name = "auth_token")
     public String authenticationToken;
 
     /**
      * Authentication token expiration date.
      */
+    @JsonIgnore
     @Column(name = "token_exp_date")
     @Temporal(TemporalType.TIMESTAMP)
     public Date tokenExpirationDate;
@@ -50,6 +55,7 @@ public class Predictor extends AbstractPredictorEntity {
     /**
      * Predictor point in all competitions that he participating in.
      */
+    @JsonIgnore
     @OneToMany
     public List<PredictorPoints> points;
 }

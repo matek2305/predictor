@@ -2,19 +2,15 @@ package controllers;
 
 import controllers.validation.RegisterUserValidator;
 import models.Predictor;
-import models.PredictorRepository;
-import models.dto.AuthenticationDetails;
-import org.apache.commons.lang3.RandomStringUtils;
-import play.Play;
+import models.dto.PredictorDetails;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Result;
-import utils.*;
+import utils.BadRequestAction;
+import utils.BusinessLogic;
+import utils.PredictorSecurity;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -36,7 +32,10 @@ public class PredictorServices extends PredictorServicesController {
      */
     @BusinessLogic(validator = RegisterUserValidator.class, authenticate = false)
     public Result registerUser() {
-        Predictor user = Json.fromJson(request().body().asJson(), Predictor.class);
+        PredictorDetails predictorDetails = prepareRequest(PredictorDetails.class);
+        Predictor user = new Predictor();
+        user.login = predictorDetails.getLogin();
+        user.password = predictorDetails.getPassword();
         user.registrationDate = new Date();
         return created(Json.toJson(getPredictorRepository().save(user)));
     }
@@ -47,8 +46,8 @@ public class PredictorServices extends PredictorServicesController {
      */
     @BusinessLogic(authenticate = false)
     public Result autheticateUser() {
-        AuthenticationDetails authenticationDetails = Json.fromJson(request().body().asJson(), AuthenticationDetails.class);
-        Optional<Predictor> predictor = getPredictorRepository().findByLoginAndPassword(authenticationDetails);
+        PredictorDetails predictorDetails = prepareRequest(PredictorDetails.class);
+        Optional<Predictor> predictor = getPredictorRepository().findByPredictorDetails(predictorDetails);
         if (predictor.isPresent()) {
             predictor.get().authenticationToken = PredictorSecurity.generateToken();
             predictor.get().tokenExpirationDate = PredictorSecurity.calculateTokenExpirationDate();

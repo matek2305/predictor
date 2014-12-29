@@ -98,7 +98,7 @@ public class Global extends GlobalSettings {
     @Override
     public Action onRequest(Http.Request request, Method method) {
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
-            throw new SecurityException(method.getName() + " method not marked with @BusinessLogic annotation!");
+            return super.onRequest(request, method);
         }
 
         currentLogic = method.getAnnotation(BusinessLogic.class);

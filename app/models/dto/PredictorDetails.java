@@ -1,9 +1,9 @@
 package models.dto;
 
 /**
- * Created by Hatake on 2014-12-28.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
-public class AuthenticationDetails {
+public class PredictorDetails {
 
     private String login;
     private String password;

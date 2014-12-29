@@ -21,14 +21,14 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator 
     private PredictorRepository predictorRepository;
 
     private T inputData;
-    private Optional<Predictor> currentUser;
+    private Predictor currentUser;
 
     @Override
     public final ValidationResult validate(Http.Request request) {
         inputData = Json.fromJson(request.body().asJson(), getInputDataClass());
-        Optional.ofNullable(request.username()).ifPresent(u -> {
-            currentUser = predictorRepository.findByLogin(u);
-        });
+        Optional.ofNullable(request.username()).ifPresent(
+                u -> currentUser = predictorRepository.findByLogin(u).get()
+        );
 
         result.getMessages().clear();
         validationLogic();
@@ -36,7 +36,7 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator 
     }
 
     @Override
-    public Optional<Predictor> getCurrentUser() {
+    public Predictor getCurrentUser() {
         return currentUser;
     }
 
