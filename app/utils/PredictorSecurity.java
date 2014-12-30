@@ -19,6 +19,7 @@ public class PredictorSecurity {
 
     private static final String AUTH_TOKEN_HEADER = "auth_token";
     private static final int AUTH_TOKEN_LENGTH = 32;
+    private static final int COMPETITION_CODE_LENGTH = 6;
 
     private PredictorRepository predictorRepository;
 
@@ -57,6 +58,10 @@ public class PredictorSecurity {
         int expirationTime = Play.application().configuration().getInt(PredictorSettings.AUTH_TOKEN_EXPIRATION_DATE);
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(expirationTime);
         return DateHelper.toDate(expirationDate);
+    }
+
+    public static String generateCompetitionCode() {
+        return RandomStringUtils.randomNumeric(COMPETITION_CODE_LENGTH);
     }
 
     public enum Status {

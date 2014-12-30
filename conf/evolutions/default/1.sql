@@ -6,6 +6,7 @@ create table competition (
   last_update_date          timestamp not null,
   name                      varchar(255) not null,
   description               varchar(255),
+  security_code             varchar(6) not null,
   admin_id                  bigint,
   constraint pk_competition primary key (id))
 ;

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Validator for {@link controllers.PredictionServices#makePrediction()} business logic.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named

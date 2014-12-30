@@ -29,6 +29,7 @@ competition:
 - &lm1415 !!models.Competition
     id:                 1
     name:               Liga Mistrzów 2014/15
+    securityCode:       123456
     admin:              *mateusz
 
 matches:

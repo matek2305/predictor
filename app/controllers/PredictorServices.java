@@ -37,7 +37,7 @@ public class PredictorServices extends PredictorServicesController {
         user.login = predictorDetails.getLogin();
         user.password = predictorDetails.getPassword();
         user.registrationDate = new Date();
-        return created(Json.toJson(getPredictorRepository().save(user)));
+        return created(getPredictorRepository().save(user));
     }
 
     /**

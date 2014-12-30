@@ -34,6 +34,6 @@ public class PredictionServices extends PredictorServicesController {
         prediction.predictor = getCurrentUser();
         prediction.homeTeamScore = predictionDetails.getHomeTeamScore();
         prediction.awayTeamScore = predictionDetails.getAwayTeamScore();
-        return created(Json.toJson(predictionRepository.save(prediction)));
+        return created(predictionRepository.save(prediction));
     }
 }

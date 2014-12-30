@@ -5,6 +5,7 @@ import models.PredictorRepository;
 import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Results;
 
 import javax.inject.Inject;
 
@@ -31,5 +32,13 @@ public abstract class PredictorServicesController extends Controller {
 
     protected PredictorRepository getPredictorRepository() {
         return predictorRepository;
+    }
+
+    public static <T> Results.Status ok(T data) {
+        return ok(Json.toJson(data));
+    }
+
+    public static <T> Results.Status created(T data) {
+        return created(Json.toJson(data));
     }
 }
