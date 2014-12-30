@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.dto.MatchDetails;
 import utils.dev.InitialData;
 
 import javax.persistence.*;
@@ -69,6 +70,18 @@ public class Match extends AbstractPredictorEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "match")
     public List<Prediction> predictions;
+
+    public Match() {
+
+    }
+
+    public Match(MatchDetails details) {
+        this.homeTeamName = details.homeTeamName;
+        this.awayTeamName = details.awayTeamName;
+        this.homeTeamScore = -1;
+        this.awayTeamScore = -1;
+        this.startDate = new Date(details.startDate.getTime());
+    }
 
     /**
      * Match status.

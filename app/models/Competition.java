@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.dto.CompetitionDetails;
 import utils.dev.InitialData;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class Competition extends AbstractPredictorEntity {
     /**
      * Lists of matches in this competition.
      */
-    @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Match> matches;
 
     /**
@@ -50,4 +51,13 @@ public class Competition extends AbstractPredictorEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER)
     public List<PredictorPoints> predictorsPoints;
+
+    public Competition() {
+
+    }
+
+    public Competition(CompetitionDetails details) {
+        this.name = details.name;
+        this.description = details.description;
+    }
 }

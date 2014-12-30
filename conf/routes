@@ -12,6 +12,7 @@ POST        /login                        @controllers.PredictorServices.autheti
 # Competition services
 GET         /competition/:id/table        @controllers.CompetitionServices.buildTable(id: Long)
 POST        /competition/join             @controllers.CompetitionServices.joinCompetition
+POST        /competition                  @controllers.CompetitionServices.createCompetition
 
 # Prediction services
 POST        /prediction                   @controllers.PredictionServices.makePrediction

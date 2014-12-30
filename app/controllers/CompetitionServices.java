@@ -1,21 +1,18 @@
 package controllers;
 
 import controllers.validation.JoinCompetitionValidator;
-import models.Competition;
-import models.CompetitionRepository;
-import models.PredictorPoints;
-import models.PredictorPointsRepository;
-import models.dto.CompetitionTable;
-import models.dto.CompetitionTableRow;
-import models.dto.JoinCompetitionRequest;
+import models.*;
+import models.dto.*;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.BusinessLogic;
+import utils.PredictorSecurity;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,5 +57,38 @@ public class CompetitionServices extends PredictorServicesController {
         predictorPoints.competition = competitionRepository.findOne(request.competitionId);
         predictorPoints.predictor = getCurrentUser();
         return created(predictorPointsRepository.save(predictorPoints));
+    }
+
+    /**
+     * Create competition service.
+     * @return
+     */
+    @BusinessLogic
+    public Result createCompetition() {
+        CompetitionDetails competitionDetails = prepareRequest(CompetitionDetails.class);
+        Competition competition = new Competition(competitionDetails);
+        competition.admin = getCurrentUser();
+        competition.securityCode = PredictorSecurity.generateCompetitionCode();
+
+        for (MatchDetails matchDetails : competitionDetails.matches) {
+            Match match = new Match(matchDetails);
+            match.status = Match.Status.OPEN_FOR_PREDICTION;
+            match.competition = competition;
+
+            if (competition.matches == null) {
+                competition.matches = new ArrayList<>();
+            }
+
+            competition.matches.add(match);
+        }
+
+        competition = competitionRepository.save(competition);
+
+        PredictorPoints predictorPoints = new PredictorPoints();
+        predictorPoints.competition = competition;
+        predictorPoints.predictor = getCurrentUser();
+        predictorPointsRepository.save(predictorPoints);
+
+        return created(new CompetitionWithSecurityCode(competition));
     }
 }
