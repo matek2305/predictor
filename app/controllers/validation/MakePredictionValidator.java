@@ -1,5 +1,7 @@
 package controllers.validation;
 
+import models.Match;
+import models.MatchRepository;
 import models.PredictionRepository;
 import models.dto.PredictionDetails;
 
@@ -15,10 +17,30 @@ public class MakePredictionValidator extends AbstractBusinessValidator<Predictio
     @Inject
     private PredictionRepository predictionRepository;
 
+    @Inject
+    private MatchRepository matchRepository;
+
     @Override
     protected void validationLogic() {
-        predictionRepository.findByMatchAndPredictor(getInputData().getMatchId(), getCurrentUser().id).ifPresent(
-                p -> addMessage(getCurrentUser().login, "wynik meczu został dodany wcześniej (zaktualizuj wynik)")
-        );
+        Match match = matchRepository.findOne(getInputData().getMatchId());
+        if (match == null) {
+            addMessage(getCurrentUser().login, "mecz o podanym identyfikatorzenie nie istnieje");
+            return;
+        }
+
+        if (getCurrentUser().points.stream().map(p -> p.competition.id).noneMatch(id -> id.equals(match.competition.id))) {
+            addMessage(getCurrentUser().login, "nie można typować wyniku meczu z turnieju w którym nie uczesnticzysz");
+            return;
+        }
+
+        if (match.status != Match.Status.OPEN_FOR_PREDICTION) {
+            addMessage(getCurrentUser().login, "typowanie wyniku zakończone");
+            return;
+        }
+
+        if (predictionRepository.findByMatchAndPredictor(getInputData().getMatchId(), getCurrentUser().id).isPresent()) {
+            addMessage(getCurrentUser().login, "wynik meczu został wytypowany wcześniej (zaktualizuj swój typ)");
+            return;
+        }
     }
 }

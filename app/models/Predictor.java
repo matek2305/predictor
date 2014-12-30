@@ -56,6 +56,6 @@ public class Predictor extends AbstractPredictorEntity {
      * Predictor point in all competitions that he participating in.
      */
     @JsonIgnore
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "predictor")
     public List<PredictorPoints> points;
 }

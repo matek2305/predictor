@@ -2,10 +2,7 @@ package models;
 
 import utils.dev.InitialData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,6 +17,7 @@ public class PredictorPoints extends AbstractPredictorEntity {
      * Predictor.
      */
     @ManyToOne(optional = false)
+    @JoinColumn(name = "predictor_id")
     public Predictor predictor;
 
     /**
