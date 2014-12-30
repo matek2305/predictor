@@ -8,31 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PredictionDetails {
 
     @JsonProperty("match")
-    private Long matchId;
-    private int homeTeamScore;
-    private int awayTeamScore;
-
-    public Long getMatchId() {
-        return matchId;
-    }
-
-    public void setMatchId(Long matchId) {
-        this.matchId = matchId;
-    }
-
-    public int getHomeTeamScore() {
-        return homeTeamScore;
-    }
-
-    public void setHomeTeamScore(int homeTeamScore) {
-        this.homeTeamScore = homeTeamScore;
-    }
-
-    public int getAwayTeamScore() {
-        return awayTeamScore;
-    }
-
-    public void setAwayTeamScore(int awayTeamScore) {
-        this.awayTeamScore = awayTeamScore;
-    }
+    public Long matchId;
+    public int homeTeamScore;
+    public int awayTeamScore;
 }

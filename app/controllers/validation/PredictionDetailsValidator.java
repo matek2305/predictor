@@ -23,7 +23,7 @@ public class PredictionDetailsValidator extends AbstractBusinessValidator<Predic
 
     @Override
     protected void validationLogic() {
-        Match match = matchRepository.findOne(getInputData().getMatchId());
+        Match match = matchRepository.findOne(getInputData().matchId);
         if (match == null) {
             addMessage(getCurrentUser().login, "mecz o podanym identyfikatorzenie nie istnieje");
             return;
@@ -39,7 +39,7 @@ public class PredictionDetailsValidator extends AbstractBusinessValidator<Predic
             return;
         }
 
-        if (getValidationContext() == ValidationContext.NEW_PREDICTION && predictionRepository.findByMatchAndPredictor(getInputData().getMatchId(), getCurrentUser().id).isPresent()) {
+        if (getValidationContext() == ValidationContext.NEW_PREDICTION && predictionRepository.findByMatchAndPredictor(getInputData().matchId, getCurrentUser().id).isPresent()) {
             addMessage(getCurrentUser().login, "wynik meczu został wytypowany wcześniej (zaktualizuj przy użyciu metody PUT)");
             return;
         }

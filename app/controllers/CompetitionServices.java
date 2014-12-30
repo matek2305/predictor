@@ -57,7 +57,7 @@ public class CompetitionServices extends PredictorServicesController {
     public Result joinCompetition() {
         JoinCompetitionRequest request = prepareRequest(JoinCompetitionRequest.class);
         PredictorPoints predictorPoints = new PredictorPoints();
-        predictorPoints.competition = competitionRepository.findOne(request.getCompetitionId());
+        predictorPoints.competition = competitionRepository.findOne(request.competitionId);
         predictorPoints.predictor = getCurrentUser();
         return created(predictorPointsRepository.save(predictorPoints));
     }

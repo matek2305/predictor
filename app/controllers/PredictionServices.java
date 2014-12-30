@@ -44,10 +44,10 @@ public class PredictionServices extends PredictorServicesController {
     @BusinessLogic(validator = PredictionDetailsValidator.class)
     public Result updatePrediction() {
         PredictionDetails predictionDetails = prepareRequest(PredictionDetails.class);
-        Optional<Prediction> prediction = predictionRepository.findByMatchAndPredictor(predictionDetails.getMatchId(), getCurrentUser().id);
+        Optional<Prediction> prediction = predictionRepository.findByMatchAndPredictor(predictionDetails.matchId, getCurrentUser().id);
         if (prediction.isPresent()) {
-            prediction.get().homeTeamScore = predictionDetails.getHomeTeamScore();
-            prediction.get().awayTeamScore = predictionDetails.getAwayTeamScore();
+            prediction.get().homeTeamScore = predictionDetails.homeTeamScore;
+            prediction.get().awayTeamScore = predictionDetails.awayTeamScore;
             return ok(predictionRepository.save(prediction.get()));
         }
 
@@ -56,10 +56,10 @@ public class PredictionServices extends PredictorServicesController {
 
     private Prediction createNew(PredictionDetails details) {
         Prediction prediction = new Prediction();
-        prediction.match = matchRepository.findOne(details.getMatchId());
+        prediction.match = matchRepository.findOne(details.matchId);
         prediction.predictor = getCurrentUser();
-        prediction.homeTeamScore = details.getHomeTeamScore();
-        prediction.awayTeamScore = details.getAwayTeamScore();
+        prediction.homeTeamScore = details.homeTeamScore;
+        prediction.awayTeamScore = details.awayTeamScore;
         return predictionRepository.save(prediction);
     }
 }

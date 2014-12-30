@@ -19,14 +19,14 @@ public class JoinCompetitionValidator extends AbstractBusinessValidator<JoinComp
 
     @Override
     protected void validationLogic() {
-        Competition competition = competitionRepository.findOne(getInputData().getCompetitionId());
+        Competition competition = competitionRepository.findOne(getInputData().competitionId);
         if (competition == null) {
             addMessage(getCurrentUser().login, "turniej o podanym identyfikatorze nie istnieje");
             return;
         }
 
-        if (!competition.securityCode.equals(getInputData().getCompetitionCode())) {
-            addMessage(getInputData().getCompetitionCode(), "nieprawidłowy kod bezpieczeństwa");
+        if (!competition.securityCode.equals(getInputData().competitionCode)) {
+            addMessage(getInputData().competitionCode, "nieprawidłowy kod bezpieczeństwa");
             return;
         }
 
