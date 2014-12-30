@@ -17,7 +17,6 @@ public class PredictorPoints extends AbstractPredictorEntity {
      * Predictor.
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "predictor_id")
     public Predictor predictor;
 
     /**

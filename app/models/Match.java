@@ -67,7 +67,7 @@ public class Match extends AbstractPredictorEntity {
      * Lists of predictions for this match.
      */
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "match")
     public List<Prediction> predictions;
 
     /**

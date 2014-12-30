@@ -38,12 +38,12 @@ public class Competition extends AbstractPredictorEntity {
     /**
      * Lists of matches in this competition.
      */
-    @OneToMany
+    @OneToMany(mappedBy = "competition")
     public List<Match> matches;
 
     /**
      * Points for all predictors that are participating in this competition.
      */
-    @OneToMany
+    @OneToMany(mappedBy = "competition")
     public List<PredictorPoints> predictorsPoints;
 }

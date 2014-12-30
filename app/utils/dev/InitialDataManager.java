@@ -72,11 +72,9 @@ public class InitialDataManager {
     }
 
     private void dropData(InitialDataWrapper data) {
-        String table = getTableName(data.getTarget());
-        String query = format(DROP_DATA_FROM_TABLE_PATTERN, table);
-
-        int droppedCount = JPA.em().createNativeQuery(query).executeUpdate();
-        Logger.debug(format("%s [%s]: dropped %s rows", data.getTarget().getSimpleName(), table, droppedCount));
+        String query = format(DROP_DATA_FROM_TABLE_PATTERN, data.getTarget().getSimpleName());
+        int droppedCount = JPA.em().createQuery(query).executeUpdate();
+        Logger.debug(format("%s: dropped %s rows", data.getTarget().getSimpleName(), droppedCount));
     }
 
     private Map<String, List<Object>> getDataMap(InitialData initialData) {
