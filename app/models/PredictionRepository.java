@@ -8,7 +8,8 @@ import javax.inject.Singleton;
 import java.util.Optional;
 
 /**
- * Created by Hatake on 2014-12-13.
+ * Repository for {@link models.Prediction} entity.
+ * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 @Singleton

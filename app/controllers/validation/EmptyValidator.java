@@ -13,7 +13,7 @@ import java.util.Optional;
 public abstract class EmptyValidator implements BusinessValidator {
 
     @Override
-    public ValidationResult validate(Http.Request request) {
+    public ValidationResult validate(Http.Request request, ValidationContext context) {
         throw new IllegalStateException("EmptyValidator called!");
     }
 

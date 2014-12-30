@@ -2,6 +2,7 @@ package utils;
 
 import controllers.validation.BusinessValidator;
 import controllers.validation.EmptyValidator;
+import controllers.validation.ValidationContext;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,6 +22,12 @@ public @interface BusinessLogic {
      * @return
      */
     public Class<? extends BusinessValidator> validator() default EmptyValidator.class;
+
+    /**
+     * Validation context for marked logic.
+     * @return
+     */
+    public ValidationContext validationContext() default ValidationContext.DEFAULT;
 
     /**
      * Value defining whether authentication is required for marked method or not.

@@ -15,6 +15,7 @@ POST        /competition/join             @controllers.CompetitionServices.joinC
 
 # Prediction services
 POST        /prediction                   @controllers.PredictionServices.makePrediction
+PUT         /prediction                   @controllers.PredictionServices.updatePrediction
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                 controllers.Assets.at(path="/public", file)

@@ -22,9 +22,11 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator 
 
     private T inputData;
     private Predictor currentUser;
+    private ValidationContext validationContext;
 
     @Override
-    public final ValidationResult validate(Http.Request request) {
+    public ValidationResult validate(Http.Request request, ValidationContext context) {
+        validationContext = context;
         inputData = Json.fromJson(request.body().asJson(), getInputDataClass());
         Optional.ofNullable(request.username()).ifPresent(
                 u -> currentUser = predictorRepository.findByLogin(u).get()
@@ -38,6 +40,10 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator 
     @Override
     public Predictor getCurrentUser() {
         return currentUser;
+    }
+
+    public ValidationContext getValidationContext() {
+        return validationContext;
     }
 
     protected T getInputData() {

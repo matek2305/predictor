@@ -14,9 +14,10 @@ public interface BusinessValidator {
     /**
      * Starts validation of given request.
      * @param request request
+     * @param context validation context
      * @return validation result
      */
-    ValidationResult validate(Http.Request request);
+    ValidationResult validate(Http.Request request, ValidationContext context);
 
     /**
      * Returns current user.

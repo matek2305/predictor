@@ -9,11 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Validator for {@link controllers.PredictionServices#makePrediction()} business logic.
+ * Validator for {@link models.dto.PredictionDetails} data.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
-public class MakePredictionValidator extends AbstractBusinessValidator<PredictionDetails> {
+public class PredictionDetailsValidator extends AbstractBusinessValidator<PredictionDetails> {
 
     @Inject
     private PredictionRepository predictionRepository;
@@ -39,8 +39,8 @@ public class MakePredictionValidator extends AbstractBusinessValidator<Predictio
             return;
         }
 
-        if (predictionRepository.findByMatchAndPredictor(getInputData().getMatchId(), getCurrentUser().id).isPresent()) {
-            addMessage(getCurrentUser().login, "wynik meczu został wytypowany wcześniej (zaktualizuj swój typ)");
+        if (getValidationContext() == ValidationContext.NEW_PREDICTION && predictionRepository.findByMatchAndPredictor(getInputData().getMatchId(), getCurrentUser().id).isPresent()) {
+            addMessage(getCurrentUser().login, "wynik meczu został wytypowany wcześniej (zaktualizuj przy użyciu metody PUT)");
             return;
         }
     }

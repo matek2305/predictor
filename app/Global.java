@@ -128,7 +128,7 @@ public class Global extends GlobalSettings {
 
     private Action validate(Http.Request request, Method method) {
         BusinessValidator validator = ctx.getBean(currentLogic.validator());
-        ValidationResult result =  validator.validate(request);
+        ValidationResult result =  validator.validate(request, currentLogic.validationContext());
         return result.success() ? super.onRequest(request, method) : BadRequestAction.fromValidationResult(result);
     }
 
