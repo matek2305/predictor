@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.validation.CreateCompetitionValidator;
 import controllers.validation.JoinCompetitionValidator;
 import models.*;
 import models.dto.*;
@@ -63,7 +64,7 @@ public class CompetitionServices extends PredictorServicesController {
      * Create competition service.
      * @return
      */
-    @BusinessLogic
+    @BusinessLogic(validator = CreateCompetitionValidator.class)
     public Result createCompetition() {
         CompetitionDetails competitionDetails = prepareRequest(CompetitionDetails.class);
         Competition competition = new Competition(competitionDetails);
