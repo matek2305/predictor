@@ -68,7 +68,7 @@ public class Match extends AbstractPredictorEntity {
      * Lists of predictions for this match.
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Prediction> predictions;
 
     public Match() {

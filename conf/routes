@@ -18,5 +18,8 @@ POST        /competition                  @controllers.CompetitionServices.creat
 POST        /prediction                   @controllers.PredictionServices.makePrediction
 PUT         /prediction                   @controllers.PredictionServices.updatePrediction
 
+# Match services
+POST        /match/finish                 @controllers.MatchServices.finishMatch
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                 controllers.Assets.at(path="/public", file)

@@ -109,3 +109,27 @@ predictions:
     points:             0
     match:              *psgcfc
     predictor:          *mateusz
+
+- !!models.Prediction
+    id:                 4
+    homeTeamScore:      3
+    awayTeamScore:      1
+    points:             0
+    match:              *psgcfc
+    predictor:          *bartek
+
+- !!models.Prediction
+    id:                 5
+    homeTeamScore:      1
+    awayTeamScore:      1
+    points:             0
+    match:              *mcifcb
+    predictor:          *mateusz
+
+- !!models.Prediction
+    id:                 6
+    homeTeamScore:      0
+    awayTeamScore:      1
+    points:             0
+    match:              *mcifcb
+    predictor:          *bartek
