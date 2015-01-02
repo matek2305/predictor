@@ -2,7 +2,7 @@ package controllers.validation;
 
 import models.Match;
 import models.MatchRepository;
-import models.dto.FinishMatchRequest;
+import models.dto.MatchResultData;
 import utils.MatchUtils;
 
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ import javax.inject.Named;
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
-public class FinishMatchValidator extends AbstractBusinessValidator<FinishMatchRequest> {
+public class MatchResultDataValidation extends AbstractBusinessValidator<MatchResultData> {
 
     @Inject
     private MatchRepository matchRepository;
@@ -30,8 +30,13 @@ public class FinishMatchValidator extends AbstractBusinessValidator<FinishMatchR
             return;
         }
 
-        if (match.status == Match.Status.RESULT_AVAILABLE) {
+        if (getValidationContext() == ValidationContext.DEFAULT && match.status == Match.Status.RESULT_AVAILABLE) {
             addMessage(MatchUtils.getMatchLabel(match), "wynik został już uzupełniony");
+            return;
+        }
+
+        if (getValidationContext() == ValidationContext.MATCH_RESULT_CHANGE && match.status != Match.Status.RESULT_AVAILABLE) {
+            addMessage(MatchUtils.getMatchLabel(match), "nie znaleziono wyniku do aktualizacji, uzupełnij wynik");
             return;
         }
 

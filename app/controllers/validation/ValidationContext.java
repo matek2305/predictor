@@ -6,5 +6,6 @@ package controllers.validation;
  */
 public enum ValidationContext {
     DEFAULT,
-    NEW_PREDICTION
+    NEW_PREDICTION,
+    MATCH_RESULT_CHANGE,
 }
