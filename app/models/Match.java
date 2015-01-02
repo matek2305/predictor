@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.dto.ExtendedMatchDetails;
 import models.dto.MatchDetails;
 import utils.dev.InitialData;
 

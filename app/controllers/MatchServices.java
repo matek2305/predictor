@@ -1,10 +1,12 @@
 package controllers;
 
 import controllers.validation.CancelMatchRequestValidation;
+import controllers.validation.ExtendedMatchDetailsValidation;
 import controllers.validation.MatchResultDataValidation;
 import controllers.validation.ValidationContext;
 import models.*;
 import models.dto.CancelMatchRequest;
+import models.dto.ExtendedMatchDetails;
 import models.dto.MatchResultData;
 import play.mvc.Result;
 import utils.BusinessLogic;
@@ -13,6 +15,7 @@ import utils.MatchUtils;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 
 /**
  * Match services controller.
@@ -30,6 +33,9 @@ public class MatchServices extends PredictorServicesController {
 
     @Inject
     private PredictorPointsRepository predictorPointsRepository;
+
+    @Inject
+    private CompetitionRepository competitionRepository;
 
     @BusinessLogic(validator = MatchResultDataValidation.class)
     public Result result() {
@@ -91,5 +97,14 @@ public class MatchServices extends PredictorServicesController {
         match.status = Match.Status.CANCELLED;
         match.comments = request.comments;
         return ok(matchRepository.save(match));
+    }
+
+    @BusinessLogic(validator = ExtendedMatchDetailsValidation.class)
+    public Result create() {
+        ExtendedMatchDetails details = prepareRequest(ExtendedMatchDetails.class);
+        Match match = new Match(details);
+        match.status = Match.Status.OPEN_FOR_PREDICTION;
+        match.competition = competitionRepository.findOne(details.competitionId);;
+        return created(matchRepository.save(match));
     }
 }

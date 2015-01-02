@@ -44,6 +44,22 @@ public final class MatchUtils {
         return true;
     }
 
+    public static boolean equals(Match a, MatchDetails b) {
+        if (!StringUtils.equals(a.homeTeamName, b.homeTeamName)) {
+            return false;
+        }
+
+        if (!StringUtils.equals(a.awayTeamName, b.awayTeamName)) {
+            return false;
+        }
+
+        if (a.startDate.getTime() != b.startDate.getTime()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static int calculatePoints(Match match, Prediction prediction) {
         if (match.homeTeamScore == prediction.homeTeamScore && match.awayTeamScore == prediction.awayTeamScore) {
             return EXACT_PREDICTION_POINTS;
