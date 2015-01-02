@@ -57,6 +57,11 @@ public class Match extends AbstractPredictorEntity {
     public Status status;
 
     /**
+     * Comments (when cancelled).
+     */
+    public String comments;
+
+    /**
      * Competition.
      */
     @JsonIgnore
@@ -89,6 +94,7 @@ public class Match extends AbstractPredictorEntity {
     public static enum Status {
         OPEN_FOR_PREDICTION,
         PREDICTION_CLOSED,
-        RESULT_AVAILABLE
+        RESULT_AVAILABLE,
+        CANCELLED
     }
 }

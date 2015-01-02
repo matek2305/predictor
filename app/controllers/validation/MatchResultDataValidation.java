@@ -30,6 +30,11 @@ public class MatchResultDataValidation extends AbstractBusinessValidator<MatchRe
             return;
         }
 
+        if (match.status == Match.Status.CANCELLED) {
+            addMessage(MatchUtils.getMatchLabel(match), "mecz został anulowany");
+            return;
+        }
+
         if (getValidationContext() == ValidationContext.DEFAULT && match.status == Match.Status.RESULT_AVAILABLE) {
             addMessage(MatchUtils.getMatchLabel(match), "wynik został już uzupełniony");
             return;

@@ -21,8 +21,9 @@ create table match (
   away_team_score           integer default -1,
   start_date                timestamp not null,
   status                    varchar(19) not null,
+  comments                  varchar(255),
   competition_id            bigint not null,
-  constraint ck_match_status check (status in ('OPEN_FOR_PREDICTION','PREDICTION_CLOSED','RESULT_AVAILABLE')),
+  constraint ck_match_status check (status in ('OPEN_FOR_PREDICTION','PREDICTION_CLOSED','RESULT_AVAILABLE', 'CANCELLED')),
   constraint pk_match primary key (id))
 ;
 
