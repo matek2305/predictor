@@ -1,6 +1,10 @@
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import controllers.actors.MatchScannerServiceActor;
 import controllers.validation.BusinessValidator;
 import controllers.validation.EmptyValidator;
 import controllers.validation.ValidationResult;
+import models.MatchRepository;
 import models.PredictorRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +17,11 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
+import play.libs.Akka;
 import play.mvc.Action;
 import play.mvc.Http;
+import scala.concurrent.duration.Duration;
+import utils.AkkaUtils;
 import utils.BadRequestAction;
 import utils.BusinessLogic;
 import utils.PredictorSecurity;
@@ -23,6 +30,7 @@ import utils.dev.InitialDataManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Application wide behaviour.
@@ -30,6 +38,8 @@ import java.lang.reflect.Method;
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public class Global extends GlobalSettings {
+
+    private static final String MATCH_SCANNER_MESSAGE = "scan";
 
     /**
      * Declare the application context to be used - a Java annotation based application context requiring no XML.
@@ -76,6 +86,10 @@ public class Global extends GlobalSettings {
             });
             Logger.debug("[DEV] Initial data loaded.");
         }
+
+        Props props = Props.create(MatchScannerServiceActor.class, ctx.getBean(MatchRepository.class));
+        ActorRef actor = Akka.system().actorOf(props);
+        AkkaUtils.scheduleActor(actor, Duration.create(10, TimeUnit.SECONDS), MATCH_SCANNER_MESSAGE);
     }
 
     /**

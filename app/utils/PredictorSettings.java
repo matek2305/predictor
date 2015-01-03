@@ -12,6 +12,11 @@ public final class PredictorSettings {
      */
     public static final String AUTH_TOKEN_EXPIRATION_DATE = "auth-token-expiration-time";
 
+    /**
+     * Prediction block time (in minutes);
+     */
+    public static final String PREDICTION_BLOCK_TIME = "prediction-block-time";
+
     private PredictorSettings() {
 
     }
