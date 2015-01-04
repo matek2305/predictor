@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.validation.RegisterUserValidator;
 import models.Predictor;
+import models.dto.AuthenticateUserResponse;
 import models.dto.PredictorDetails;
 import play.libs.Json;
 import play.mvc.Result;
@@ -51,7 +52,8 @@ public class PredictorServices extends PredictorServicesController {
         if (predictor.isPresent()) {
             predictor.get().authenticationToken = PredictorSecurity.generateToken();
             predictor.get().tokenExpirationDate = PredictorSecurity.calculateTokenExpirationDate();
-            return created(getPredictorRepository().save(predictor.get()).authenticationToken);
+            Predictor authenticatedPredictor = getPredictorRepository().save(predictor.get());
+            return created(new AuthenticateUserResponse(authenticatedPredictor));
         }
 
         response().setHeader(BadRequestAction.PREDICTOR_STATUS_REASON_HEADER, PredictorSecurity.Status.FAILED.getStatusReasonHeaderValue());
