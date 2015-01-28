@@ -18,8 +18,10 @@ import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
 import play.libs.Akka;
+import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
+import play.mvc.SimpleResult;
 import scala.concurrent.duration.Duration;
 import utils.AkkaUtils;
 import utils.BadRequestAction;
@@ -112,12 +114,12 @@ public class Global extends GlobalSettings {
     @Override
     public Action onRequest(Http.Request request, Method method) {
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
-            return super.onRequest(request, method);
+            return wrapWithCorsHeader(request, method);
         }
 
         currentLogic = method.getAnnotation(BusinessLogic.class);
         if (!currentLogic.authenticate() && currentLogic.validator().equals(EmptyValidator.class)) {
-            return super.onRequest(request, method);
+            return wrapWithCorsHeader(request, method);
         }
 
         if (!currentLogic.authenticate()) {
@@ -130,11 +132,11 @@ public class Global extends GlobalSettings {
 
         PredictorSecurity.Status status = predictorSecurity.authenticateRequest(request);
         if (status != PredictorSecurity.Status.SUCCESS) {
-            return BadRequestAction.fromAuthenticationStatus(status);
+            return badRequest(status);
         }
 
         if (currentLogic.validator().equals(EmptyValidator.class)) {
-            return super.onRequest(request, method);
+            return wrapWithCorsHeader(request, method);
         }
 
         return validate(request, method);
@@ -143,7 +145,19 @@ public class Global extends GlobalSettings {
     private Action validate(Http.Request request, Method method) {
         BusinessValidator validator = ctx.getBean(currentLogic.validator());
         ValidationResult result =  validator.validate(request, currentLogic.validationContext());
-        return result.success() ? super.onRequest(request, method) : BadRequestAction.fromValidationResult(result);
+        return result.success() ? wrapWithCorsHeader(request, method) : badRequest(result);
+    }
+
+    private Action badRequest(PredictorSecurity.Status status) {
+        return new ActionWrapper(BadRequestAction.fromAuthenticationStatus(status));
+    }
+
+    private Action badRequest(ValidationResult result) {
+        return new ActionWrapper(BadRequestAction.fromValidationResult(result));
+    }
+
+    private Action wrapWithCorsHeader(Http.Request request, Method method) {
+        return new ActionWrapper(super.onRequest(request, method));
     }
 
     /**
@@ -180,6 +194,21 @@ public class Global extends GlobalSettings {
         @Bean
         public JpaTransactionManager transactionManager() {
             return new JpaTransactionManager();
+        }
+    }
+
+    private static class ActionWrapper extends Action.Simple {
+
+        public ActionWrapper(Action<?> action) {
+            this.delegate = action;
+        }
+
+        @Override
+        public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
+            F.Promise<SimpleResult> result = this.delegate.call(context);
+            Http.Response response = context.response();
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            return result;
         }
     }
 }
