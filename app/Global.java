@@ -208,6 +208,7 @@ public class Global extends GlobalSettings {
             F.Promise<SimpleResult> result = this.delegate.call(context);
             Http.Response response = context.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Expose-Headers", BadRequestAction.PREDICTOR_STATUS_REASON_HEADER);
             return result;
         }
     }

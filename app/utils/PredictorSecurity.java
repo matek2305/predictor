@@ -17,7 +17,8 @@ import java.util.Optional;
  */
 public class PredictorSecurity {
 
-    private static final String AUTH_TOKEN_HEADER = "auth_token";
+    public static final String AUTH_TOKEN_HEADER = "Predictor-Authentication-Token";
+
     private static final int AUTH_TOKEN_LENGTH = 32;
     private static final int COMPETITION_CODE_LENGTH = 6;
 
