@@ -113,13 +113,17 @@ public class Global extends GlobalSettings {
 
     @Override
     public Action onRequest(Http.Request request, Method method) {
+        return new ActionWrapper(interceptRequest(request, method));
+    }
+
+    private Action interceptRequest(Http.Request request, Method method) {
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
-            return wrapWithCorsHeader(request, method);
+            return super.onRequest(request, method);
         }
 
         currentLogic = method.getAnnotation(BusinessLogic.class);
         if (!currentLogic.authenticate() && currentLogic.validator().equals(EmptyValidator.class)) {
-            return wrapWithCorsHeader(request, method);
+            return super.onRequest(request, method);
         }
 
         if (!currentLogic.authenticate()) {
@@ -132,11 +136,11 @@ public class Global extends GlobalSettings {
 
         PredictorSecurity.Status status = predictorSecurity.authenticateRequest(request);
         if (status != PredictorSecurity.Status.SUCCESS) {
-            return badRequest(status);
+            return onAuthenticationFailed(status);
         }
 
         if (currentLogic.validator().equals(EmptyValidator.class)) {
-            return wrapWithCorsHeader(request, method);
+            return super.onRequest(request, method);
         }
 
         return validate(request, method);
@@ -145,19 +149,15 @@ public class Global extends GlobalSettings {
     private Action validate(Http.Request request, Method method) {
         BusinessValidator validator = ctx.getBean(currentLogic.validator());
         ValidationResult result =  validator.validate(request, currentLogic.validationContext());
-        return result.success() ? wrapWithCorsHeader(request, method) : badRequest(result);
+        return result.success() ? super.onRequest(request, method) : onValidationFailed(result);
     }
 
-    private Action badRequest(PredictorSecurity.Status status) {
-        return new ActionWrapper(BadRequestAction.fromAuthenticationStatus(status));
+    private Action onValidationFailed(ValidationResult result) {
+        return BadRequestAction.fromValidationResult(result);
     }
 
-    private Action badRequest(ValidationResult result) {
-        return new ActionWrapper(BadRequestAction.fromValidationResult(result));
-    }
-
-    private Action wrapWithCorsHeader(Http.Request request, Method method) {
-        return new ActionWrapper(super.onRequest(request, method));
+    private Action onAuthenticationFailed(PredictorSecurity.Status status) {
+        return BadRequestAction.fromAuthenticationStatus(status);
     }
 
     /**
