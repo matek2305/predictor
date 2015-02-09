@@ -4,6 +4,7 @@ import controllers.actors.MatchScannerServiceActor;
 import controllers.validation.BusinessValidator;
 import controllers.validation.EmptyValidator;
 import controllers.validation.ValidationResult;
+import filters.CorsFilter;
 import models.MatchRepository;
 import models.PredictorRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,6 +17,7 @@ import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
+import play.api.mvc.EssentialFilter;
 import play.db.jpa.JPA;
 import play.libs.Akka;
 import play.libs.F;
@@ -113,10 +115,6 @@ public class Global extends GlobalSettings {
 
     @Override
     public Action onRequest(Http.Request request, Method method) {
-        return new ActionWrapper(interceptRequest(request, method));
-    }
-
-    private Action interceptRequest(Http.Request request, Method method) {
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
             return super.onRequest(request, method);
         }
@@ -169,6 +167,11 @@ public class Global extends GlobalSettings {
         return ctx.getBean(aClass);
     }
 
+    @Override
+    public <T extends EssentialFilter> Class<T>[] filters() {
+        return new Class[] { CorsFilter.class };
+    }
+
     /**
      * This configuration establishes Spring Data concerns including those of JPA.
      */
@@ -194,22 +197,6 @@ public class Global extends GlobalSettings {
         @Bean
         public JpaTransactionManager transactionManager() {
             return new JpaTransactionManager();
-        }
-    }
-
-    private static class ActionWrapper extends Action.Simple {
-
-        public ActionWrapper(Action<?> action) {
-            this.delegate = action;
-        }
-
-        @Override
-        public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
-            F.Promise<SimpleResult> result = this.delegate.call(context);
-            Http.Response response = context.response();
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Expose-Headers", BadRequestAction.PREDICTOR_STATUS_REASON_HEADER);
-            return result;
         }
     }
 }
