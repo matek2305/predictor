@@ -8,6 +8,7 @@ GET         /                             @controllers.PredictorServices.index
 # User services
 POST        /user                         @controllers.PredictorServices.registerUser
 POST        /login                        @controllers.PredictorServices.autheticateUser
+POST        /logout                       @controllers.PredictorServices.endSessin
 
 # Competition services
 GET         /competition/:id/table        @controllers.CompetitionServices.buildTable(id: Long)

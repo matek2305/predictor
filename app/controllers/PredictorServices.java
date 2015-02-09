@@ -59,4 +59,12 @@ public class PredictorServices extends PredictorServicesController {
         response().setHeader(BadRequestAction.PREDICTOR_STATUS_REASON_HEADER, PredictorSecurity.Status.FAILED.getStatusReasonHeaderValue());
         return badRequest();
     }
+
+    @BusinessLogic
+    public Result endSessin() {
+        Predictor user = getCurrentUser();
+        user.tokenExpirationDate = new Date();
+        getPredictorRepository().save(user);
+        return ok();
+    }
 }
