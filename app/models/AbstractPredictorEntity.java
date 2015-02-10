@@ -34,4 +34,17 @@ public abstract class AbstractPredictorEntity {
     @Column(name = "last_update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date lastUpdateDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractPredictorEntity)) return false;
+
+        return id.equals(((AbstractPredictorEntity) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

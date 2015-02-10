@@ -60,8 +60,12 @@ public class PredictorServices extends PredictorServicesController {
         return badRequest();
     }
 
+    /**
+     * End user session.
+     * @return
+     */
     @BusinessLogic
-    public Result endSessin() {
+    public Result endSession() {
         Predictor user = getCurrentUser();
         user.tokenExpirationDate = new Date();
         getPredictorRepository().save(user);

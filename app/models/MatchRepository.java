@@ -1,5 +1,8 @@
 package models;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Date;
@@ -13,4 +16,7 @@ import java.util.List;
 public interface MatchRepository extends PredictorCrudRepository<Match> {
 
     List<Match> findByStatusAndStartDateLessThan(Match.Status status, Date date);
+
+    @Query("SELECT m FROM Match m JOIN m.competition.predictorsPoints pp WHERE m.status = :status AND pp.predictor.id = :predictorId ORDER BY m.startDate ASC")
+    List<Match> findByStatusAndPredictorOrderByStartDateAsc(@Param("status") Match.Status status, @Param("predictorId") Long predictorId);
 }
