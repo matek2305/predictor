@@ -1,5 +1,6 @@
 package models.dto.web;
 
+import models.Competition;
 import models.Match;
 
 import java.util.List;
@@ -11,11 +12,18 @@ import java.util.stream.Collectors;
  */
 public class HomePageData {
 
-    public Set<MatchData> matches;
     public Set<CompetitionData> competitions;
+    public Set<MatchData> matches;
 
-    public HomePageData(List<Match> matches) {
-        this.matches = matches.stream().map(m -> new MatchData(m)).collect(Collectors.toSet());
-        this.competitions = matches.stream().map(m -> m.competition).distinct().map(c -> new CompetitionData(c)).collect(Collectors.toSet());
+    public HomePageData(Long predictorId, List<Match> matches, List<Competition> competitions) {
+        this.competitions = competitions.stream().map(c -> new CompetitionData(c)).collect(Collectors.toSet());
+        this.matches = matches.stream().map(m -> {
+            MatchData data = new MatchData(m);
+            m.predictions.stream().filter(p -> p.predictor.id.equals(predictorId)).findFirst().ifPresent(p -> {
+                data.homeTeamScore = p.homeTeamScore;
+                data.awayTeamScore = p.awayTeamScore;
+            });
+            return data;
+        }).collect(Collectors.toSet());
     }
 }

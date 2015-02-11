@@ -1,5 +1,7 @@
 package controllers;
 
+import models.Competition;
+import models.CompetitionRepository;
 import models.Match;
 import models.MatchRepository;
 import models.dto.web.HomePageData;
@@ -21,9 +23,13 @@ public class WebDataServices extends PredictorServicesController {
     @Inject
     private MatchRepository matchRepository;
 
+    @Inject
+    private CompetitionRepository competitionRepository;
+
     @BusinessLogic
     public Result homePage() {
         List<Match> matches = matchRepository.findByStatusAndPredictorOrderByStartDateAsc(Match.Status.OPEN_FOR_PREDICTION, getCurrentUser().id);
-        return ok(new HomePageData(matches));
+        List<Competition> competitions = competitionRepository.findForPredictor(getCurrentUser().id);
+        return ok(new HomePageData(getCurrentUser().id, matches, competitions));
     }
 }
