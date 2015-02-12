@@ -4,6 +4,10 @@ import models.Match;
 import models.Prediction;
 import models.dto.MatchDetails;
 import org.apache.commons.lang3.StringUtils;
+import play.Play;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Mateusz Urbański <matek2305@gmail.com>
@@ -78,6 +82,16 @@ public final class MatchUtils {
         }
 
         return MISSED_PREDICTION_POINTS;
+    }
+
+    public static Date calculatePredictionLockTime(Date matchStartDate) {
+        LocalDateTime predictionLockTime = calculatePredictionLockTime(DateHelper.toLocalDateTime(matchStartDate));
+        return DateHelper.toDate(predictionLockTime);
+    }
+
+    public static LocalDateTime calculatePredictionLockTime(LocalDateTime matchStartDate) {
+        int blockTimeInMinutes = Play.application().configuration().getInt(PredictorSettings.PREDICTION_BLOCK_TIME);
+        return matchStartDate.minusMinutes(blockTimeInMinutes);
     }
 
     private MatchUtils() {

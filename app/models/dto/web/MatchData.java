@@ -2,6 +2,7 @@ package models.dto.web;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import models.Match;
+import utils.MatchUtils;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class MatchData {
     public Integer homeTeamScore;
     public Integer awayTeamScore;
     public Date startDate;
+    public Date predictionLockDate;
     public Match.Status status;
     public String comments;
 
@@ -29,6 +31,7 @@ public class MatchData {
         this.homeTeamScore = match.homeTeamScore >= 0 ? match.homeTeamScore : null;
         this.awayTeamScore = match.awayTeamScore >= 0 ? match.awayTeamScore : null;
         this.startDate = match.startDate;
+        this.predictionLockDate = MatchUtils.calculatePredictionLockTime(match.startDate);
         this.comments = match.comments;
         this.competitionId = match.competition.id;
         this.status = match.status;
