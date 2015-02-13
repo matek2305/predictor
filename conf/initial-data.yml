@@ -143,3 +143,11 @@ predictions:
     points:             0
     match:              *mcifcb
     predictor:          *bartek
+
+- !!models.Prediction
+    id:                 7
+    homeTeamScore:      1
+    awayTeamScore:      1
+    points:             0
+    match:              *cfcs04
+    predictor:          *mateusz
