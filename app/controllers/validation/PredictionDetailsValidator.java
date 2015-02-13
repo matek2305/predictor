@@ -25,22 +25,22 @@ public class PredictionDetailsValidator extends AbstractBusinessValidator<Predic
     protected void validationLogic() {
         Match match = matchRepository.findOne(getInputData().matchId);
         if (match == null) {
-            addMessage(getCurrentUser().login, "mecz o podanym identyfikatorzenie nie istnieje");
+            addMessage("mecz o podanym identyfikatorzenie [%s] nie istnieje", getInputData().matchId);
             return;
         }
 
         if (getCurrentUser().points.stream().map(p -> p.competition.id).noneMatch(id -> id.equals(match.competition.id))) {
-            addMessage(getCurrentUser().login, "nie można typować wyniku meczu z turnieju w którym nie uczesnticzysz");
+            addMessage("nie można typować wyniku meczu z turnieju w którym nie uczesnticzysz");
             return;
         }
 
         if (match.status != Match.Status.OPEN_FOR_PREDICTION) {
-            addMessage(getCurrentUser().login, "typowanie wyniku zakończone");
+            addMessage("typowanie wyniku zakończone");
             return;
         }
 
         if (getValidationContext() == ValidationContext.NEW_PREDICTION && predictionRepository.findByMatchAndPredictor(getInputData().matchId, getCurrentUser().id).isPresent()) {
-            addMessage(getCurrentUser().login, "wynik meczu został wytypowany wcześniej (zaktualizuj przy użyciu metody PUT)");
+            addMessage("wynik meczu został wytypowany wcześniej (zaktualizuj przy użyciu metody PUT)");
             return;
         }
     }

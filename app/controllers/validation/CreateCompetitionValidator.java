@@ -22,13 +22,13 @@ public class CreateCompetitionValidator extends AbstractBusinessValidator<Compet
     @Override
     protected void validationLogic() {
         if (competitionRepository.findByName(getInputData().name).isPresent()) {
-            addMessage(getInputData().name, "turniej o tej nazwie już istnieje");
+            addMessage("turniej o tej nazwie już istnieje");
             return;
         }
 
         for (MatchDetails matchDetails : getInputData().matches) {
             if (matchDetails.startDate.getTime() < new Date().getTime()) {
-                addMessage(MatchUtils.getMatchLabel(matchDetails), "mecz ma datę rozpoczęcia z przeszłości");
+                addMessage("mecz ma datę rozpoczęcia z przeszłości");
                 return;
             }
         }
@@ -37,13 +37,13 @@ public class CreateCompetitionValidator extends AbstractBusinessValidator<Compet
 
             MatchDetails currentMatch = getInputData().matches.get(i);
             if (currentMatch.startDate.getTime() < new Date().getTime()) {
-                addMessage(MatchUtils.getMatchLabel(currentMatch), "mecz ma datę rozpoczęcia z przeszłości");
+                addMessage("mecz ma datę rozpoczęcia z przeszłości");
                 return;
             }
 
             for (int j = i + 1; j < getInputData().matches.size(); j++) {
                 if (MatchUtils.equals(currentMatch, getInputData().matches.get(j))) {
-                    addMessage(MatchUtils.getMatchLabel(currentMatch), "podano dwa takie same mecze");
+                    addMessage("podano dwa takie same mecze");
                     return;
                 }
             }

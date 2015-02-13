@@ -21,32 +21,32 @@ public class MatchResultDataValidation extends AbstractBusinessValidator<MatchRe
     protected void validationLogic() {
         Match match = matchRepository.findOne(getInputData().matchId);
         if (match == null) {
-            addMessage(getInputData().matchId.toString(), "mecz o podanym identyfikatorze nie istnieje");
+            addMessage("mecz o podanym identyfikatorze [%s] nie istnieje", getInputData().matchId);
             return;
         }
 
         if (!match.competition.admin.id.equals(getCurrentUser().id)) {
-            addMessage(match.competition.name, "tylko administrator turnieju może uzupełniać wyniki meczów");
+            addMessage("tylko administrator turnieju może uzupełniać wyniki meczów");
             return;
         }
 
         if (match.status == Match.Status.CANCELLED) {
-            addMessage(MatchUtils.getMatchLabel(match), "mecz został anulowany");
+            addMessage("mecz został anulowany");
             return;
         }
 
         if (getValidationContext() == ValidationContext.DEFAULT && match.status == Match.Status.RESULT_AVAILABLE) {
-            addMessage(MatchUtils.getMatchLabel(match), "wynik został już uzupełniony");
+            addMessage("wynik został już uzupełniony");
             return;
         }
 
         if (getValidationContext() == ValidationContext.MATCH_RESULT_CHANGE && match.status != Match.Status.RESULT_AVAILABLE) {
-            addMessage(MatchUtils.getMatchLabel(match), "nie znaleziono wyniku do aktualizacji, uzupełnij wynik");
+            addMessage("nie znaleziono wyniku do aktualizacji, uzupełnij wynik");
             return;
         }
 
         if (getInputData().homeTeamScore < 0 || getInputData().awayTeamScore < 0) {
-            addMessage(MatchUtils.getMatchLabel(match), "nieprawidłowy wynik");
+            addMessage("nieprawidłowy wynik");
             return;
         }
     }

@@ -61,7 +61,7 @@ public abstract class AbstractBusinessValidator<T> implements BusinessValidator 
 
     protected abstract void validationLogic();
 
-    protected void addMessage(String key, String msg) {
-        result.addMessage(key, msg);
+    protected void addMessage(String msg, Object... args) {
+        result.addMessage(String.format(msg, args));
     }
 }

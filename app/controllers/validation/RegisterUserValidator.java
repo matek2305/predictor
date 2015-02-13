@@ -16,7 +16,7 @@ public class RegisterUserValidator extends AbstractBusinessValidator<Predictor> 
     @Override
     protected void validationLogic() {
         if (getPredictorRepository().findByLogin(getInputData().login).isPresent()) {
-            addMessage(getInputData().login, "nazwa użytkownika jest już zajęta");
+            addMessage("nazwa użytkownika jest już zajęta");
         }
     }
 }

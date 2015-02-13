@@ -21,12 +21,12 @@ public class CancelMatchRequestValidation extends AbstractBusinessValidator<Canc
     protected void validationLogic() {
         Match match = matchRepository.findOne(getInputData().matchId);
         if (match == null) {
-            addMessage(getInputData().matchId.toString(), "mecz o podanym identyfikatorze nie istnieje");
+            addMessage("mecz o podanym identyfikatorze [%s] nie istnieje", getInputData().matchId);
             return;
         }
 
         if (match.status == Match.Status.CANCELLED) {
-            addMessage(MatchUtils.getMatchLabel(match), "mecz został już anulowany");
+            addMessage("mecz został już anulowany");
             return;
         }
     }

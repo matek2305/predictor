@@ -21,17 +21,17 @@ public class JoinCompetitionValidator extends AbstractBusinessValidator<JoinComp
     protected void validationLogic() {
         Competition competition = competitionRepository.findOne(getInputData().competitionId);
         if (competition == null) {
-            addMessage(getCurrentUser().login, "turniej o podanym identyfikatorze nie istnieje");
+            addMessage("turniej o podanym identyfikatorze nie istnieje");
             return;
         }
 
         if (!competition.securityCode.equals(getInputData().competitionCode)) {
-            addMessage(getInputData().competitionCode, "nieprawidłowy kod bezpieczeństwa");
+            addMessage("nieprawidłowy kod bezpieczeństwa");
             return;
         }
 
         if (competition.predictorsPoints.stream().map(p -> p.predictor.id).anyMatch(id -> id.equals(getCurrentUser().id))) {
-            addMessage(getCurrentUser().login, "nie możesz dwa razy dołączyć do tego samego turnieju");
+            addMessage("nie możesz dwa razy dołączyć do tego samego turnieju");
             return;
         }
     }

@@ -23,22 +23,22 @@ public class ExtendedMatchDetailsValidation extends AbstractBusinessValidator<Ex
     protected void validationLogic() {
         Competition competition = competitionRepository.findOne(getInputData().competitionId);
         if (competition == null) {
-            addMessage(getInputData().competitionId.toString(), "turniej o podanym identyfikatorze nie istnieje");
+            addMessage("turniej o podanym identyfikatorze [%s] nie istnieje", getInputData().competitionId);
             return;
         }
 
         if (competition.admin.id != getCurrentUser().id) {
-            addMessage(competition.name, "tylko adminitrator może dodawać mecze");
+            addMessage("tylko adminitrator może dodawać mecze");
             return;
         }
 
         if (getInputData().startDate.getTime() < new Date().getTime()) {
-            addMessage(MatchUtils.getMatchLabel(getInputData()), "można dodawac tylko może które się odbędą");
+            addMessage("można dodawac tylko może które się odbędą");
         }
 
         for (Match match : competition.matches) {
             if (MatchUtils.equals(match, getInputData())) {
-                addMessage(MatchUtils.getMatchLabel(getInputData()), "ten mecz już został dodany do turnieju");
+                addMessage("ten mecz już został dodany do turnieju");
                 return;
             }
         }
