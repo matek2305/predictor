@@ -19,4 +19,7 @@ public interface MatchRepository extends PredictorCrudRepository<Match> {
 
     @Query("SELECT m FROM Match m JOIN m.competition.predictorsPoints pp WHERE m.status = :status AND pp.predictor.id = :predictorId ORDER BY m.startDate ASC")
     List<Match> findByStatusAndPredictorOrderByStartDateAsc(@Param("status") Match.Status status, @Param("predictorId") Long predictorId);
+
+    @Query("SELECT m FROM Match m WHERE m.status = :status AND m.competition.admin.id = :adminId ORDER BY m.startDate ASC")
+    List<Match> findByStatusAndAdminOrderByStartDateAsc(@Param("status") Match.Status status, @Param("adminId") Long adminId);
 }

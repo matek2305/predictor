@@ -13,11 +13,12 @@ import java.util.stream.Collectors;
 public class HomePageData {
 
     public Set<CompetitionData> competitions;
+    public Set<MatchData> predictions;
     public Set<MatchData> matches;
 
-    public HomePageData(Long predictorId, List<Match> matches, List<Competition> competitions) {
-        this.competitions = competitions.stream().map(c -> new CompetitionData(c)).collect(Collectors.toSet());
-        this.matches = matches.stream().map(m -> {
+    public HomePageData(Long predictorId, List<Match> predictions, List<Match> matches, List<Competition> competitions) {
+        this.competitions = competitions.stream().map(c -> new CompetitionData(predictorId, c)).collect(Collectors.toSet());
+        this.predictions = predictions.stream().map(m -> {
             MatchData data = new MatchData(m);
             m.predictions.stream().filter(p -> p.predictor.id.equals(predictorId)).findFirst().ifPresent(p -> {
                 data.homeTeamScore = p.homeTeamScore;
@@ -25,5 +26,6 @@ public class HomePageData {
             });
             return data;
         }).collect(Collectors.toSet());
+        this.matches = matches.stream().map(MatchData::new).collect(Collectors.toSet());
     }
 }

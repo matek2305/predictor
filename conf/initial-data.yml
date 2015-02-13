@@ -57,12 +57,22 @@ matches:
 - &s04cfc !!models.Match
     id:                 3
     homeTeamName:       Schalke 04
-    awayTeamName:       Chelsea F.C.
+    awayTeamName:       Chelsea F.C.o
     startDate:          2014-11-25 20:45:00.000
     status:             RESULT_AVAILABLE
     competition:        *lm1415
     homeTeamScore:      0
     awayTeamScore:      5
+
+- &cfcs04 !!models.Match
+    id:                 4
+    homeTeamName:       Chelsea F.C.
+    awayTeamName:       Schalke 04
+    startDate:          2014-09-17 20:45:00.000
+    status:             PREDICTION_CLOSED
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
 
 points:
 

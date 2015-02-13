@@ -28,8 +28,9 @@ public class WebDataServices extends PredictorServicesController {
 
     @BusinessLogic
     public Result homePage() {
-        List<Match> matches = matchRepository.findByStatusAndPredictorOrderByStartDateAsc(Match.Status.OPEN_FOR_PREDICTION, getCurrentUser().id);
+        List<Match> predictions = matchRepository.findByStatusAndPredictorOrderByStartDateAsc(Match.Status.OPEN_FOR_PREDICTION, getCurrentUser().id);
+        List<Match> matches = matchRepository.findByStatusAndAdminOrderByStartDateAsc(Match.Status.PREDICTION_CLOSED, getCurrentUser().id);
         List<Competition> competitions = competitionRepository.findForPredictor(getCurrentUser().id);
-        return ok(new HomePageData(getCurrentUser().id, matches, competitions));
+        return ok(new HomePageData(getCurrentUser().id, predictions, matches, competitions));
     }
 }
