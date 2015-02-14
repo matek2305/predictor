@@ -5,6 +5,7 @@ import models.PredictorRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import play.Play;
 import play.mvc.Http;
+import utils.settings.PredictorSettings;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -56,7 +57,7 @@ public class PredictorSecurity {
     }
 
     public static Date calculateTokenExpirationDate() {
-        int expirationTime = Play.application().configuration().getInt(PredictorSettings.AUTH_TOKEN_EXPIRATION_DATE);
+        int expirationTime = PredictorSettings.getInt(PredictorSettings.Setting.AUTH_TOKEN_EXPIRATION_DATE);
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(expirationTime);
         return DateHelper.toDate(expirationDate);
     }

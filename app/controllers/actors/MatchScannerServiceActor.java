@@ -7,7 +7,7 @@ import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
 import utils.DateHelper;
-import utils.PredictorSettings;
+import utils.settings.PredictorSettings;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MatchScannerServiceActor extends UntypedActor {
     }
 
     private void findAndBlockPredictionsForMatches() {
-        int blockTimeInMinutes = Play.application().configuration().getInt(PredictorSettings.PREDICTION_BLOCK_TIME);
+        int blockTimeInMinutes = PredictorSettings.getInt(PredictorSettings.Setting.PREDICTION_BLOCK_TIME);
         LocalDateTime predictionTimeLimit = LocalDateTime.now().plusMinutes(blockTimeInMinutes);
         List<Match> matches = matchRepository.findByStatusAndStartDateLessThan(Match.Status.OPEN_FOR_PREDICTION, DateHelper.toDate(predictionTimeLimit));
 

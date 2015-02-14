@@ -15,7 +15,6 @@ import utils.MatchUtils;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 
 /**
  * Match services controller.
@@ -46,7 +45,7 @@ public class MatchServices extends PredictorServicesController {
         match.status = Match.Status.RESULT_AVAILABLE;
 
         for (Prediction prediction : match.predictions) {
-            prediction.points = MatchUtils.calculatePoints(match, prediction);
+            prediction.points = MatchUtils.calculatePointsForPrediction(match, prediction);
 
             PredictorPoints predictorPoints = predictorPointsRepository.findByCompetitionAndPredictor(match.competition.id, prediction.predictor.id);
             predictorPoints.points += prediction.points;
@@ -65,7 +64,7 @@ public class MatchServices extends PredictorServicesController {
 
         for (Prediction prediction : match.predictions) {
             int subtract = prediction.points;
-            prediction.points = MatchUtils.calculatePoints(match, prediction);
+            prediction.points = MatchUtils.calculatePointsForPrediction(match, prediction);
 
             PredictorPoints predictorPoints = predictorPointsRepository.findByCompetitionAndPredictor(match.competition.id, prediction.predictor.id);
             predictorPoints.points -= subtract;
