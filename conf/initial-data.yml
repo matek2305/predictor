@@ -32,6 +32,36 @@ competition:
     securityCode:       123456
     admin:              *mateusz
 
+- &pl1415 !!models.Competition
+    id:                 2
+    name:               Premier League 2014/15
+    securityCode:       123456
+    admin:              *mateusz
+
+- &pd1415 !!models.Competition
+    id:                 3
+    name:               Primera Division 2014/15
+    securityCode:       123456
+    admin:              *mateusz
+
+- &tme1415 !!models.Competition
+    id:                 4
+    name:               T-Mobile Ekstraklasa 2014/15
+    securityCode:       123456
+    admin:              *mateusz
+
+- &bl1415 !!models.Competition
+    id:                 5
+    name:               Bundesliga 2014/15
+    securityCode:       123456
+    admin:              *mateusz
+
+- &sa1415 !!models.Competition
+    id:                 6
+    name:               Serie A 2014/15
+    securityCode:       123456
+    admin:              *mateusz
+
 matches:
 
 - &psgcfc !!models.Match
@@ -93,6 +123,36 @@ points:
     predictor:          *zdzichu
     competition:        *lm1415
     points:             16
+
+- !!models.PredictorPoints
+    id:                 4
+    predictor:          *mateusz
+    competition:        *pl1415
+    points:             12
+
+- !!models.PredictorPoints
+    id:                 5
+    predictor:          *mateusz
+    competition:        *pd1415
+    points:             0
+
+- !!models.PredictorPoints
+    id:                 6
+    predictor:          *mateusz
+    competition:        *tme1415
+    points:             0
+
+- !!models.PredictorPoints
+    id:                 7
+    predictor:          *mateusz
+    competition:        *bl1415
+    points:             0
+
+- !!models.PredictorPoints
+    id:                 8
+    predictor:          *mateusz
+    competition:        *sa1415
+    points:             0
 
 predictions:
 

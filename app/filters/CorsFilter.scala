@@ -10,7 +10,9 @@ import scala.concurrent.ExecutionContext.Implicits.global;
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 class CorsFilter extends EssentialFilter {
+
   override def apply(next: EssentialAction) = new EssentialAction {
+
     override def apply(requestHeader: RequestHeader) = {
       next(requestHeader).map { result =>
         result.withHeaders(

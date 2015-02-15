@@ -1,6 +1,7 @@
 package models;
 
 import models.dto.CompetitionTableRow;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,6 +22,6 @@ public interface CompetitionRepository extends PredictorCrudRepository<Competiti
     @Query("SELECT NEW models.dto.CompetitionTableRow(pp.predictor.login, pp.points) FROM PredictorPoints pp WHERE pp.competition.id = :id ORDER BY pp.points DESC")
     List<CompetitionTableRow> findTableRowsById(@Param("id") Long id);
 
-    @Query("SELECT c FROM Competition c JOIN c.predictorsPoints pp WHERE pp.predictor.id = :predictorId")
-    List<Competition> findForPredictor(@Param("predictorId") Long predictorId);
+    @Query("SELECT c FROM Competition c JOIN c.predictorsPoints pp WHERE pp.predictor.id = :predictorId ORDER BY pp.points DESC")
+    List<Competition> findForPredictorOrderByPointsDesc(@Param("predictorId") Long predictorId, Pageable pageable);
 }

@@ -5,8 +5,10 @@ import models.CompetitionRepository;
 import models.Match;
 import models.MatchRepository;
 import models.dto.web.HomePageData;
+import org.springframework.data.domain.PageRequest;
 import play.mvc.Result;
 import utils.BusinessLogic;
+import utils.LimitResults;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +22,9 @@ import java.util.List;
 @Singleton
 public class WebDataServices extends PredictorServicesController {
 
+    private static final LimitResults TOP_FIVE_RESULTS = new LimitResults(5);
+    private static final LimitResults TOP_TEN_RESULTS = new LimitResults(10);
+
     @Inject
     private MatchRepository matchRepository;
 
@@ -28,9 +33,9 @@ public class WebDataServices extends PredictorServicesController {
 
     @BusinessLogic
     public Result homePage() {
-        List<Match> predictions = matchRepository.findByStatusAndPredictorOrderByStartDateAsc(Match.Status.OPEN_FOR_PREDICTION, getCurrentUser().id);
-        List<Match> matches = matchRepository.findByStatusAndAdminOrderByStartDateAsc(Match.Status.PREDICTION_CLOSED, getCurrentUser().id);
-        List<Competition> competitions = competitionRepository.findForPredictor(getCurrentUser().id);
+        List<Match> predictions = matchRepository.findByStatusAndPredictorOrderByStartDateAsc(Match.Status.OPEN_FOR_PREDICTION, getCurrentUser().id, TOP_FIVE_RESULTS);
+        List<Match> matches = matchRepository.findByStatusAndAdminOrderByStartDateAsc(Match.Status.PREDICTION_CLOSED, getCurrentUser().id, TOP_FIVE_RESULTS);
+        List<Competition> competitions = competitionRepository.findForPredictorOrderByPointsDesc(getCurrentUser().id, TOP_TEN_RESULTS);
         return ok(new HomePageData(getCurrentUser().id, predictions, matches, competitions));
     }
 }
