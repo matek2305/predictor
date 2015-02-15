@@ -17,5 +17,6 @@ libraryDependencies ++= Seq(
     "postgresql" % "postgresql" % "9.1-901.jdbc4",
     "org.apache.commons" % "commons-math3" % "3.3",
     "org.apache.commons" % "commons-lang3" % "3.3.2",
-    "junit" % "junit" % "4.12" % "test"
+    "junit" % "junit" % "4.12" % "test",
+    "org.mockito" % "mockito-core" % "1.10.19" % "test"
 )

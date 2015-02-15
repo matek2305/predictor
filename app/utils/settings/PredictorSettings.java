@@ -1,17 +1,11 @@
 package utils.settings;
 
-import play.Play;
-
 /**
  * Predictor settings.
  *
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public final class PredictorSettings {
-
-    public static final int getInt(Setting setting) {
-        return Play.application().configuration().getInt(setting.getName());
-    }
 
     public static enum Setting {
 
@@ -54,6 +48,17 @@ public final class PredictorSettings {
         public String getName() {
             return name;
         }
+
+    }
+
+    private static SettingsProvider settingsProvider = new DefaultSettingsProvider();
+
+    public static final int getInt(Setting setting) {
+        return settingsProvider.getInt(setting);
+    }
+
+    public static void setSettingsProvider(SettingsProvider settingsProvider) {
+        PredictorSettings.settingsProvider = settingsProvider;
     }
 
     private PredictorSettings() {
