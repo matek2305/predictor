@@ -4,8 +4,8 @@ import models.Competition;
 import models.CompetitionRepository;
 import models.Match;
 import models.MatchRepository;
+import models.dto.web.CompetitionsPageData;
 import models.dto.web.HomePageData;
-import org.springframework.data.domain.PageRequest;
 import play.mvc.Result;
 import utils.BusinessLogic;
 import utils.LimitResults;
@@ -37,5 +37,13 @@ public class WebDataServices extends PredictorServicesController {
         List<Match> matches = matchRepository.findByStatusAndAdminOrderByStartDateAsc(Match.Status.PREDICTION_CLOSED, getCurrentUser().id, TOP_FIVE_RESULTS);
         List<Competition> competitions = competitionRepository.findForPredictorOrderByPointsDesc(getCurrentUser().id, TOP_TEN_RESULTS);
         return ok(new HomePageData(getCurrentUser().id, predictions, matches, competitions));
+    }
+
+    @BusinessLogic
+    public Result competitionsPage() {
+        List<Competition> userCompetitions = competitionRepository.findByAdmin(getCurrentUser().id);
+        List<Competition> otherCompetitions = competitionRepository.findForPredictorThatIsNotAdmin(getCurrentUser().id);
+        List<Competition> competitions = competitionRepository.findForPredictorOrderByPointsDesc(getCurrentUser().id, TOP_TEN_RESULTS);
+        return ok(new CompetitionsPageData(getCurrentUser().id, userCompetitions, otherCompetitions, competitions));
     }
 }

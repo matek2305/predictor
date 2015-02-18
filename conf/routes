@@ -7,6 +7,7 @@ GET            /                             @controllers.PredictorServices.inde
 
 # Web Data Services
 GET            /web/pages/home               @controllers.WebDataServices.homePage
+GET            /web/pages/competitions       @controllers.WebDataServices.competitionsPage
 
 # User services
 POST           /user                         @controllers.PredictorServices.registerUser
