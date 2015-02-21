@@ -3,9 +3,10 @@ package controllers;
 import controllers.validation.CreateCompetitionValidator;
 import controllers.validation.JoinCompetitionValidator;
 import models.*;
-import models.dto.*;
-import play.libs.Json;
-import play.mvc.Controller;
+import models.dto.CompetitionDetails;
+import models.dto.CompetitionWithSecurityCode;
+import models.dto.JoinCompetitionRequest;
+import models.dto.MatchDetails;
 import play.mvc.Result;
 import utils.BusinessLogic;
 import utils.PredictorSecurity;
@@ -14,7 +15,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Competition services controller.
@@ -29,23 +29,6 @@ public class CompetitionServices extends PredictorServicesController {
 
     @Inject
     private PredictorPointsRepository predictorPointsRepository;
-
-    /**
-     * Current competition table service.
-     * @param competitionId competition id
-     * @return current standings
-     */
-    @BusinessLogic
-    public Result buildTable(Long competitionId) {
-        Competition competition = competitionRepository.findOne(competitionId);
-        if (competition == null) {
-            return notFound("Competition not found!");
-        }
-
-        List<CompetitionTableRow> content = competitionRepository.findTableRowsById(competitionId);
-        CompetitionTable table = new CompetitionTable(competition.name, content);
-        return ok(table);
-    }
 
     /**
      * Join competition service.

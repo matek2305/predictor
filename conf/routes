@@ -15,7 +15,6 @@ POST           /login                        @controllers.PredictorServices.auth
 POST           /logout                       @controllers.PredictorServices.endSession
 
 # Competition services
-GET            /competition/:id/table        @controllers.CompetitionServices.buildTable(id: Long)
 POST           /competition/join             @controllers.CompetitionServices.joinCompetition
 POST           /competition                  @controllers.CompetitionServices.createCompetition
 
