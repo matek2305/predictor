@@ -1,8 +1,8 @@
 package utils;
 
-import models.Competition;
-import models.Predictor;
-import models.PredictorPoints;
+import domain.entity.Competition;
+import domain.entity.Predictor;
+import domain.entity.PredictorPoints;
 import org.junit.Test;
 
 import java.util.LinkedList;

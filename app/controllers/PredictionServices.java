@@ -2,10 +2,10 @@ package controllers;
 
 import controllers.validation.PredictionDetailsValidator;
 import controllers.validation.ValidationContext;
-import models.MatchRepository;
-import models.Prediction;
-import models.PredictionRepository;
-import models.dto.PredictionDetails;
+import domain.repository.MatchRepository;
+import domain.entity.Prediction;
+import domain.repository.PredictionRepository;
+import domain.dto.PredictionDetails;
 import play.mvc.Result;
 import utils.BusinessLogic;
 

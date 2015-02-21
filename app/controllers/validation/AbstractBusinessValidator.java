@@ -1,7 +1,7 @@
 package controllers.validation;
 
-import models.Predictor;
-import models.PredictorRepository;
+import domain.entity.Predictor;
+import domain.repository.PredictorRepository;
 import play.libs.Json;
 import play.mvc.Http;
 

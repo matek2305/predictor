@@ -1,10 +1,9 @@
 package controllers;
 
 import controllers.validation.RegisterUserValidator;
-import models.Predictor;
-import models.dto.AuthenticateUserResponse;
-import models.dto.PredictorDetails;
-import play.libs.Json;
+import domain.entity.Predictor;
+import domain.dto.AuthenticateUserResponse;
+import domain.dto.PredictorDetails;
 import play.mvc.Result;
 import utils.BadRequestAction;
 import utils.BusinessLogic;

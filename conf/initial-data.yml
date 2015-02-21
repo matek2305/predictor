@@ -1,24 +1,24 @@
 users:
 
-- &admin !!models.Predictor
+- &admin !!Predictor
     id:                 1
     login:              admin
     password:           password
     registrationDate:   2014-12-14
 
-- &mateusz !!models.Predictor
+- &mateusz !!Predictor
     id:                 2
     login:              mateusz
     password:           password
     registrationDate:   2014-12-14
 
-- &bartek !!models.Predictor
+- &bartek !!Predictor
     id:                 3
     login:              bartek
     password:           password
     registrationDate:   2014-12-14
 
-- &zdzichu !!models.Predictor
+- &zdzichu !!Predictor
     id:                 4
     login:              zdzichu
     password:           password
@@ -26,37 +26,37 @@ users:
 
 competition:
 
-- &lm1415 !!models.Competition
+- &lm1415 !!Competition
     id:                 1
     name:               Liga Mistrzów 2014/15
     securityCode:       123456
     admin:              *mateusz
 
-- &pl1415 !!models.Competition
+- &pl1415 !!Competition
     id:                 2
     name:               Premier League 2014/15
     securityCode:       123456
     admin:              *mateusz
 
-- &pd1415 !!models.Competition
+- &pd1415 !!Competition
     id:                 3
     name:               Primera Division 2014/15
     securityCode:       123456
     admin:              *mateusz
 
-- &tme1415 !!models.Competition
+- &tme1415 !!Competition
     id:                 4
     name:               T-Mobile Ekstraklasa 2014/15
     securityCode:       123456
     admin:              *mateusz
 
-- &bl1415 !!models.Competition
+- &bl1415 !!Competition
     id:                 5
     name:               Bundesliga 2014/15
     securityCode:       123456
     admin:              *mateusz
 
-- &sa1415 !!models.Competition
+- &sa1415 !!Competition
     id:                 6
     name:               Serie A 2014/15
     securityCode:       123456
@@ -64,7 +64,7 @@ competition:
 
 matches:
 
-- &psgcfc !!models.Match
+- &psgcfc !!Match
     id:                 1
     homeTeamName:       Paris Saint-Germain F.C.
     awayTeamName:       Chelsea F.C.
@@ -74,7 +74,7 @@ matches:
     homeTeamScore:      -1
     awayTeamScore:      -1
 
-- &mcifcb !!models.Match
+- &mcifcb !!Match
     id:                 2
     homeTeamName:       Manchester City
     awayTeamName:       FC Barcelona
@@ -84,7 +84,7 @@ matches:
     homeTeamScore:      -1
     awayTeamScore:      -1
 
-- &s04cfc !!models.Match
+- &s04cfc !!Match
     id:                 3
     homeTeamName:       Schalke 04
     awayTeamName:       Chelsea F.C.o
@@ -94,7 +94,7 @@ matches:
     homeTeamScore:      0
     awayTeamScore:      5
 
-- &cfcs04 !!models.Match
+- &cfcs04 !!Match
     id:                 4
     homeTeamName:       Chelsea F.C.
     awayTeamName:       Schalke 04
@@ -106,49 +106,49 @@ matches:
 
 points:
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 1
     predictor:          *mateusz
     competition:        *lm1415
     points:             23
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 2
     predictor:          *bartek
     competition:        *lm1415
     points:             27
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 3
     predictor:          *zdzichu
     competition:        *lm1415
     points:             16
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 4
     predictor:          *mateusz
     competition:        *pl1415
     points:             12
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 5
     predictor:          *mateusz
     competition:        *pd1415
     points:             0
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 6
     predictor:          *mateusz
     competition:        *tme1415
     points:             0
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 7
     predictor:          *mateusz
     competition:        *bl1415
     points:             0
 
-- !!models.PredictorPoints
+- !!PredictorPoints
     id:                 8
     predictor:          *mateusz
     competition:        *sa1415
@@ -156,7 +156,7 @@ points:
 
 predictions:
 
-- !!models.Prediction
+- !!Prediction
     id:                 1
     homeTeamScore:      1
     awayTeamScore:      3
@@ -164,7 +164,7 @@ predictions:
     match:              *s04cfc
     predictor:          *mateusz
 
-- !!models.Prediction
+- !!Prediction
     id:                 2
     homeTeamScore:      0
     awayTeamScore:      2
@@ -172,7 +172,7 @@ predictions:
     match:              *s04cfc
     predictor:          *bartek
 
-- !!models.Prediction
+- !!Prediction
     id:                 3
     homeTeamScore:      0
     awayTeamScore:      1
@@ -180,7 +180,7 @@ predictions:
     match:              *psgcfc
     predictor:          *mateusz
 
-- !!models.Prediction
+- !!Prediction
     id:                 4
     homeTeamScore:      3
     awayTeamScore:      1
@@ -188,7 +188,7 @@ predictions:
     match:              *psgcfc
     predictor:          *bartek
 
-- !!models.Prediction
+- !!Prediction
     id:                 5
     homeTeamScore:      1
     awayTeamScore:      1
@@ -196,7 +196,7 @@ predictions:
     match:              *mcifcb
     predictor:          *mateusz
 
-- !!models.Prediction
+- !!Prediction
     id:                 6
     homeTeamScore:      0
     awayTeamScore:      1
@@ -204,7 +204,7 @@ predictions:
     match:              *mcifcb
     predictor:          *bartek
 
-- !!models.Prediction
+- !!Prediction
     id:                 7
     homeTeamScore:      1
     awayTeamScore:      1

@@ -1,7 +1,7 @@
 package controllers;
 
-import models.Predictor;
-import models.PredictorRepository;
+import domain.entity.Predictor;
+import domain.repository.PredictorRepository;
 import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Controller;

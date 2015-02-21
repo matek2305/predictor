@@ -1,8 +1,8 @@
 package controllers.validation;
 
-import models.Competition;
-import models.CompetitionRepository;
-import models.dto.JoinCompetitionRequest;
+import domain.entity.Competition;
+import domain.repository.CompetitionRepository;
+import domain.dto.JoinCompetitionRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;

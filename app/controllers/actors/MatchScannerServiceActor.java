@@ -1,10 +1,9 @@
 package controllers.actors;
 
 import akka.actor.UntypedActor;
-import models.Match;
-import models.MatchRepository;
+import domain.entity.Match;
+import domain.repository.MatchRepository;
 import play.Logger;
-import play.Play;
 import play.db.jpa.JPA;
 import utils.DateHelper;
 import utils.settings.PredictorSettings;

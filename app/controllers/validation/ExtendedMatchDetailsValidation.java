@@ -1,9 +1,9 @@
 package controllers.validation;
 
-import models.Competition;
-import models.CompetitionRepository;
-import models.Match;
-import models.dto.ExtendedMatchDetails;
+import domain.entity.Competition;
+import domain.repository.CompetitionRepository;
+import domain.entity.Match;
+import domain.dto.ExtendedMatchDetails;
 import utils.MatchUtils;
 
 import javax.inject.Inject;

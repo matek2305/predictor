@@ -1,15 +1,15 @@
 package controllers.validation;
 
-import models.Match;
-import models.MatchRepository;
-import models.PredictionRepository;
-import models.dto.PredictionDetails;
+import domain.entity.Match;
+import domain.repository.MatchRepository;
+import domain.repository.PredictionRepository;
+import domain.dto.PredictionDetails;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Validator for {@link models.dto.PredictionDetails} data.
+ * Validator for {@link domain.dto.PredictionDetails} data.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named

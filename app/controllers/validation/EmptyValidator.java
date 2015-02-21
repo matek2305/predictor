@@ -1,9 +1,7 @@
 package controllers.validation;
 
-import models.Predictor;
+import domain.entity.Predictor;
 import play.mvc.Http;
-
-import java.util.Optional;
 
 /**
  * Default validator (does nothing).

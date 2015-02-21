@@ -1,9 +1,8 @@
 package controllers.validation;
 
-import models.Match;
-import models.MatchRepository;
-import models.dto.MatchResultData;
-import utils.MatchUtils;
+import domain.entity.Match;
+import domain.repository.MatchRepository;
+import domain.dto.MatchResultData;
 
 import javax.inject.Inject;
 import javax.inject.Named;

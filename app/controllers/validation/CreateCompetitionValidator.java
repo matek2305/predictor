@@ -1,8 +1,8 @@
 package controllers.validation;
 
-import models.CompetitionRepository;
-import models.dto.CompetitionDetails;
-import models.dto.MatchDetails;
+import domain.repository.CompetitionRepository;
+import domain.dto.CompetitionDetails;
+import domain.dto.MatchDetails;
 import utils.MatchUtils;
 
 import javax.inject.Inject;

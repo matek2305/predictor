@@ -1,9 +1,7 @@
 package controllers.validation;
 
-import models.Predictor;
-import models.PredictorRepository;
+import domain.entity.Predictor;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**

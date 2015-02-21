@@ -1,11 +1,11 @@
 package controllers;
 
-import models.Competition;
-import models.CompetitionRepository;
-import models.Match;
-import models.MatchRepository;
-import models.dto.web.CompetitionsPageData;
-import models.dto.web.HomePageData;
+import domain.entity.Competition;
+import domain.repository.CompetitionRepository;
+import domain.entity.Match;
+import domain.repository.MatchRepository;
+import domain.dto.web.CompetitionsPageData;
+import domain.dto.web.HomePageData;
 import play.mvc.Result;
 import utils.BusinessLogic;
 import utils.LimitResults;

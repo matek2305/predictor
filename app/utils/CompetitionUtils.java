@@ -1,6 +1,6 @@
 package utils;
 
-import models.Competition;
+import domain.entity.Competition;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,9 +1,8 @@
 package utils;
 
-import models.Predictor;
-import models.PredictorRepository;
+import domain.entity.Predictor;
+import domain.repository.PredictorRepository;
 import org.apache.commons.lang3.RandomStringUtils;
-import play.Play;
 import play.mvc.Http;
 import utils.settings.PredictorSettings;
 

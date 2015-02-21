@@ -1,7 +1,7 @@
 package utils;
 
-import models.Match;
-import models.Prediction;
+import domain.entity.Match;
+import domain.entity.Prediction;
 import org.junit.Before;
 import org.junit.Test;
 import utils.settings.PredictorSettings;

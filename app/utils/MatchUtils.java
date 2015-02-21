@@ -1,8 +1,8 @@
 package utils;
 
-import models.Match;
-import models.Prediction;
-import models.dto.MatchDetails;
+import domain.entity.Match;
+import domain.entity.Prediction;
+import domain.dto.MatchDetails;
 import org.apache.commons.lang3.StringUtils;
 import utils.settings.PredictorSettings;
 
