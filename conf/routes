@@ -3,33 +3,29 @@
 # ~~~~
 
 # Main page
-GET            /                             @controllers.PredictorServices.index
+GET            /                               @controllers.PredictorServices.index
 
-# Web Data Services
-GET            /web/pages/home               @controllers.WebDataServices.homePage
-GET            /web/pages/competitions       @controllers.WebDataServices.competitionsPage
+# User API
+POST           /api/user/register              @controllers.PredictorServices.registerUser
+POST           /api/user/login                 @controllers.PredictorServices.autheticateUser
+POST           /api/user/logout                @controllers.PredictorServices.endSession
 
-# User services
-POST           /user                         @controllers.PredictorServices.registerUser
-POST           /login                        @controllers.PredictorServices.autheticateUser
-POST           /logout                       @controllers.PredictorServices.endSession
+# Competition API
+POST           /api/competition/join           @controllers.CompetitionServices.joinCompetition
+POST           /api/competition/add            @controllers.CompetitionServices.createCompetition
 
-# Competition services
-POST           /competition/join             @controllers.CompetitionServices.joinCompetition
-POST           /competition                  @controllers.CompetitionServices.createCompetition
+# Prediction API
+POST           /api/prediction/add             @controllers.PredictionServices.makePrediction
+PUT            /api/prediction/update          @controllers.PredictionServices.updatePrediction
 
-# Prediction services
-POST           /prediction                   @controllers.PredictionServices.makePrediction
-PUT            /prediction                   @controllers.PredictionServices.updatePrediction
-
-# Match services
-POST           /match/result                 @controllers.MatchServices.result
-PUT            /match/result                 @controllers.MatchServices.changeResult
-POST           /match/cancel                 @controllers.MatchServices.cancel
-POST           /match                        @controllers.MatchServices.create
+# Match API
+POST           /api/match/result/add           @controllers.MatchServices.result
+PUT            /api/match/result/update        @controllers.MatchServices.changeResult
+POST           /api/match/cancel               @controllers.MatchServices.cancel
+POST           /api/match/add                  @controllers.MatchServices.create
 
 # Map static resources from the /public folder to the /assets URL path
-GET            /assets/*file                 controllers.Assets.at(path="/public", file)
+GET            /assets/*file                   controllers.Assets.at(path="/public", file)
 
 # Options
-OPTIONS        /*all                         controllers.Application.preflight(all)
+OPTIONS        /*all                           controllers.Application.preflight(all)

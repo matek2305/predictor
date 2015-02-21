@@ -174,7 +174,7 @@ public class Global extends GlobalSettings {
      * This configuration establishes Spring Data concerns including those of JPA.
      */
     @Configuration
-    @EnableJpaRepositories("models")
+    @EnableJpaRepositories("domain")
     public static class SpringDataJpaConfiguration {
 
         /**
