@@ -1,4 +1,4 @@
-package domain.metamodel;
+package domain.entity;
 
 import domain.entity.AbstractPredictorEntity;
 

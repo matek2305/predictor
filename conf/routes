@@ -23,6 +23,7 @@ POST           /api/match/result/add           @controllers.MatchServices.result
 PUT            /api/match/result/update        @controllers.MatchServices.changeResult
 POST           /api/match/cancel               @controllers.MatchServices.cancel
 POST           /api/match/add                  @controllers.MatchServices.create
+GET            /api/match/list                 @controllers.MatchServices.getMatchList
 
 # Map static resources from the /public folder to the /assets URL path
 GET            /assets/*file                   controllers.Assets.at(path="/public", file)

@@ -1,8 +1,4 @@
-package domain.metamodel;
-
-import domain.entity.Match;
-import domain.entity.Prediction;
-import domain.entity.Predictor;
+package domain.entity;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

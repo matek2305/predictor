@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 @Named
 @Singleton
-public class CompetitionServices extends PredictorServicesController {
+public class CompetitionServices extends CommonPedictorService {
 
     @Inject
     private CompetitionRepository competitionRepository;

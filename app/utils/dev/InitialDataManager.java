@@ -56,7 +56,7 @@ public class InitialDataManager {
     }
 
     private void prepareInitialDataMap() {
-        Reflections reflections = new Reflections("models");
+        Reflections reflections = new Reflections("domain");
         Set<Class<?>> initialDataClasses = reflections.getTypesAnnotatedWith(InitialData.class);
         for (Class<?> initialDataClass : initialDataClasses) {
             if (!initialDataClass.isAnnotationPresent(Entity.class)) {

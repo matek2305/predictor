@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Named
 @Singleton
-public class PredictorServices extends PredictorServicesController {
+public class PredictorServices extends CommonPedictorService {
 
     public Result index() {
         return ok(views.html.index.render("Predictor"));

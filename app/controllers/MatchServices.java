@@ -1,5 +1,6 @@
 package controllers;
 
+import api.response.ListResponse;
 import controllers.validation.CancelMatchRequestValidation;
 import controllers.validation.ExtendedMatchDetailsValidation;
 import controllers.validation.MatchResultDataValidation;
@@ -7,12 +8,16 @@ import controllers.validation.ValidationContext;
 import domain.dto.CancelMatchRequest;
 import domain.dto.ExtendedMatchDetails;
 import domain.dto.MatchResultData;
+import domain.dto.web.MatchData;
 import domain.entity.Match;
 import domain.entity.Prediction;
 import domain.entity.PredictorPoints;
 import domain.repository.CompetitionRepository;
 import domain.repository.MatchRepository;
 import domain.repository.PredictorPointsRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specifications;
 import play.mvc.Result;
 import utils.BusinessLogic;
 import utils.MatchUtils;
@@ -21,13 +26,22 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static domain.specification.MatchSpecifications.hasAdminWithId;
+import static domain.specification.MatchSpecifications.hasPredictorWithId;
+import static domain.specification.MatchSpecifications.hasStatus;
+import static org.springframework.data.jpa.domain.Specifications.where;
+
 /**
  * Match services controller.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 @Named
 @Singleton
-public class MatchServices extends PredictorServicesController {
+public class MatchServices extends CommonPedictorService {
 
     private static final int CANCELLED_MATCH_POINTS = 0;
     private static final int CANCELLED_MATCH_TEAM_SCORE = -1;
@@ -40,6 +54,34 @@ public class MatchServices extends PredictorServicesController {
 
     @Inject
     private CompetitionRepository competitionRepository;
+
+    @BusinessLogic
+    public Result getMatchList() {
+        Specifications<Match> matchSpecification = where(hasPredictorWithId(getCurrentUser().id));
+        if (getBoolFromQueryString("admin")) {
+            matchSpecification = where(hasAdminWithId(getCurrentUser().id));
+        }
+
+        Optional<Match.Status> status = getEnumFromQueryString("status", Match.Status.class);
+        if (status.isPresent()) {
+            matchSpecification = matchSpecification.and(hasStatus(status.get()));
+        }
+
+        Sort startDateAsc = new Sort(Sort.Direction.ASC, "startDate");
+        Page<Match> page = matchRepository.findAll(matchSpecification, getPageRequest(startDateAsc));
+        List<MatchData> data = page.getContent().stream().map(m -> {
+            MatchData matchData = new MatchData(m);
+            if (getBoolFromQueryString("predictions")) {
+                m.predictions.stream().filter(p -> p.predictor.id.equals(getCurrentUser().id)).findFirst().ifPresent(p -> {
+                    matchData.homeTeamScore = p.homeTeamScore;
+                    matchData.awayTeamScore = p.awayTeamScore;
+                });
+            }
+            return matchData;
+        }).collect(Collectors.toList());
+
+        return ok(new ListResponse<>(data, page.getTotalElements()));
+    }
 
     @BusinessLogic(validator = MatchResultDataValidation.class)
     public Result result() {

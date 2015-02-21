@@ -1,7 +1,4 @@
-package domain.metamodel;
-
-import domain.entity.Predictor;
-import domain.entity.PredictorPoints;
+package domain.entity;
 
 import java.util.Date;
 import javax.annotation.Generated;

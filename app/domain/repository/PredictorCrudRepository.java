@@ -1,6 +1,7 @@
 package domain.repository;
 
 import domain.entity.AbstractPredictorEntity;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -8,5 +9,6 @@ import org.springframework.data.repository.NoRepositoryBean;
  * Created by Hatake on 2014-12-13.
  */
 @NoRepositoryBean
-public interface PredictorCrudRepository<T extends AbstractPredictorEntity> extends CrudRepository<T, Long> {
+public interface PredictorCrudRepository<T extends AbstractPredictorEntity>
+        extends CrudRepository<T, Long>, JpaSpecificationExecutor<T> {
 }

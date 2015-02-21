@@ -1,9 +1,4 @@
-package domain.metamodel;
-
-import domain.entity.Competition;
-import domain.entity.Match;
-import domain.entity.Predictor;
-import domain.entity.PredictorPoints;
+package domain.entity;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;

@@ -18,13 +18,4 @@ import java.util.Optional;
 public interface CompetitionRepository extends PredictorCrudRepository<Competition> {
 
     Optional<Competition> findByName(String name);
-
-    @Query("SELECT c FROM Competition c JOIN c.predictorsPoints pp WHERE pp.predictor.id = :predictorId ORDER BY pp.points DESC")
-    List<Competition> findForPredictorOrderByPointsDesc(@Param("predictorId") Long predictorId, Pageable pageable);
-
-    @Query("SELECT c FROM Competition c JOIN c.predictorsPoints pp WHERE c.admin.id <> :predictorId AND pp.predictor.id = :predictorId")
-    List<Competition> findForPredictorThatIsNotAdmin(@Param("predictorId") Long predictorId);
-
-    @Query("SELECT c FROM Competition c WHERE c.admin.id = :adminId")
-    List<Competition> findByAdmin(@Param("adminId") Long adminId);
 }

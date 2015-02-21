@@ -1,9 +1,4 @@
-package domain.metamodel;
-
-import domain.entity.Competition;
-import domain.entity.Match;
-import domain.entity.Match.Status;
-import domain.entity.Prediction;
+package domain.entity;
 
 import java.util.Date;
 import javax.annotation.Generated;
@@ -23,7 +18,7 @@ public abstract class Match_ extends AbstractPredictorEntity_ {
 	public static volatile SingularAttribute<Match, String> homeTeamName;
 	public static volatile SingularAttribute<Match, Date> startDate;
 	public static volatile ListAttribute<Match, Prediction> predictions;
-	public static volatile SingularAttribute<Match, Status> status;
+	public static volatile SingularAttribute<Match, String> status;
 
 }
 
