@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Named
 @Singleton
-public class PredictionServices extends CommonPedictorService {
+public class PredictionServices extends CommonPredictorService {
 
     @Inject
     private PredictionRepository predictionRepository;

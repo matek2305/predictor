@@ -41,7 +41,7 @@ import static org.springframework.data.jpa.domain.Specifications.where;
  */
 @Named
 @Singleton
-public class MatchServices extends CommonPedictorService {
+public class MatchServices extends CommonPredictorService {
 
     private static final int CANCELLED_MATCH_POINTS = 0;
     private static final int CANCELLED_MATCH_TEAM_SCORE = -1;

@@ -13,6 +13,7 @@ POST           /api/user/logout                @controllers.PredictorServices.en
 # Competition API
 POST           /api/competition/join           @controllers.CompetitionServices.joinCompetition
 POST           /api/competition/add            @controllers.CompetitionServices.createCompetition
+GET            /api/competition/list           @controllers.CompetitionServices.getCompetitionList
 
 # Prediction API
 POST           /api/prediction/add             @controllers.PredictionServices.makePrediction

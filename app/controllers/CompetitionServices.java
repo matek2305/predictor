@@ -1,16 +1,21 @@
 package controllers;
 
+import api.response.ListResponse;
 import controllers.validation.CreateCompetitionValidator;
 import controllers.validation.JoinCompetitionValidator;
 import domain.dto.CompetitionDetails;
 import domain.dto.CompetitionWithSecurityCode;
 import domain.dto.JoinCompetitionRequest;
 import domain.dto.MatchDetails;
+import domain.dto.web.CompetitionData;
 import domain.entity.Competition;
 import domain.entity.Match;
 import domain.entity.PredictorPoints;
 import domain.repository.CompetitionRepository;
 import domain.repository.PredictorPointsRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specifications;
 import play.mvc.Result;
 import utils.BusinessLogic;
 import utils.PredictorSecurity;
@@ -19,6 +24,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static domain.specification.CompetitionSpecifications.hasAdminWithId;
+import static domain.specification.CompetitionSpecifications.hasPredictorWithId;
+import static org.springframework.data.jpa.domain.Specifications.not;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
  * Competition services controller.
@@ -26,13 +38,32 @@ import java.util.ArrayList;
  */
 @Named
 @Singleton
-public class CompetitionServices extends CommonPedictorService {
+public class CompetitionServices extends CommonPredictorService {
 
     @Inject
     private CompetitionRepository competitionRepository;
 
     @Inject
     private PredictorPointsRepository predictorPointsRepository;
+
+    @BusinessLogic
+    public Result getCompetitionList() {
+        Specifications<Competition> competitionSpecification = where(hasPredictorWithId(getCurrentUser().id));
+        if (getBoolFromQueryString("createdByMe")) {
+            competitionSpecification = competitionSpecification.and(hasAdminWithId(getCurrentUser().id));
+        }
+
+        if (getBoolFromQueryString("imNotAdmin")) {
+            competitionSpecification = competitionSpecification.and(not(hasAdminWithId(getCurrentUser().id)));
+        }
+
+        Sort nameAsc = new Sort(Sort.Direction.ASC, "name");
+        Page<Competition> page = competitionRepository.findAll(competitionSpecification, getPageRequest(nameAsc));
+        List<CompetitionData> data = page.getContent().stream().map(c -> new CompetitionData(getCurrentUser().id, c))
+                .collect(Collectors.toList());
+
+        return ok(new ListResponse<>(data, page.getTotalElements()));
+    }
 
     /**
      * Join competition service.

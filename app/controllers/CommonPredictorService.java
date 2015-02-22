@@ -1,9 +1,7 @@
 package controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import domain.entity.Predictor;
 import domain.repository.PredictorRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import play.libs.Json;
@@ -11,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Results;
 
 import javax.inject.Inject;
-
 import java.util.EnumSet;
 import java.util.Optional;
 
@@ -21,7 +18,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  * Base predictor services controller.
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
-public abstract class CommonPedictorService extends Controller {
+public abstract class CommonPredictorService extends Controller {
 
     @Inject
     private PredictorRepository predictorRepository;
