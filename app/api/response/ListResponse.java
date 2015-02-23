@@ -9,10 +9,12 @@ public class ListResponse<T> {
 
     public List<T> list;
     public long totalElements;
+    public long totalPages;
 
-    public ListResponse(List<T> list, long totalElements) {
+    public ListResponse(List<T> list, long totalElements, long totalPages) {
         this.list = list;
         this.totalElements = totalElements;
+        this.totalPages = totalPages;
     }
 
 }

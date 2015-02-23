@@ -80,7 +80,7 @@ public class MatchServices extends CommonPredictorService {
             return matchData;
         }).collect(Collectors.toList());
 
-        return ok(new ListResponse<>(data, page.getTotalElements()));
+        return ok(new ListResponse<>(data, page.getTotalElements(), page.getTotalPages()));
     }
 
     @BusinessLogic(validator = MatchResultDataValidation.class)

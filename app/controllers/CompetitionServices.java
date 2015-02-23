@@ -62,7 +62,7 @@ public class CompetitionServices extends CommonPredictorService {
         List<CompetitionData> data = page.getContent().stream().map(c -> new CompetitionData(getCurrentUser().id, c))
                 .collect(Collectors.toList());
 
-        return ok(new ListResponse<>(data, page.getTotalElements()));
+        return ok(new ListResponse<>(data, page.getTotalElements(), page.getTotalPages()));
     }
 
     /**
