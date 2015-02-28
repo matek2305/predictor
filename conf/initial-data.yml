@@ -87,7 +87,7 @@ matches:
 - &s04cfc !!domain.entity.Match
     id:                 3
     homeTeamName:       Schalke 04
-    awayTeamName:       Chelsea F.C.o
+    awayTeamName:       Chelsea F.C.
     startDate:          2014-11-25 20:45:00.000
     status:             RESULT_AVAILABLE
     competition:        *lm1415
@@ -100,6 +100,36 @@ matches:
     awayTeamName:       Schalke 04
     startDate:          2014-09-17 20:45:00.000
     status:             PREDICTION_CLOSED
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
+
+- !!domain.entity.Match
+    id:                 5
+    homeTeamName:       Chelsea F.C.
+    awayTeamName:       Paris Saint-Germain F.C.
+    startDate:          2015-03-11 20:45:00.000
+    status:             OPEN_FOR_PREDICTION
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
+
+- !!domain.entity.Match
+    id:                 6
+    homeTeamName:       FC Barcelona
+    awayTeamName:       Manchester City
+    startDate:          2015-03-18 20:45:00.000
+    status:             OPEN_FOR_PREDICTION
+    competition:        *lm1415
+    homeTeamScore:      -1
+    awayTeamScore:      -1
+
+- !!domain.entity.Match
+    id:                 7
+    homeTeamName:       Borussia Dortmund
+    awayTeamName:       Juventus
+    startDate:          2015-03-18 20:45:00.000
+    status:             OPEN_FOR_PREDICTION
     competition:        *lm1415
     homeTeamScore:      -1
     awayTeamScore:      -1
