@@ -7,7 +7,7 @@ import utils.dev.InitialData;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Hatake on 2014-12-13.
@@ -74,7 +74,7 @@ public class Match extends AbstractPredictorEntity {
      */
     @JsonIgnore
     @OneToMany(mappedBy = "match", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Prediction> predictions;
+    public Set<Prediction> predictions;
 
     public Match() {
 

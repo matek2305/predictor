@@ -6,7 +6,7 @@ import utils.dev.InitialData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Hatake on 2014-12-13.
@@ -43,14 +43,14 @@ public class Competition extends AbstractPredictorEntity {
      * Lists of matches in this competition.
      */
     @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Match> matches;
+    public Set<Match> matches;
 
     /**
      * Points for all predictors that are participating in this competition.
      */
     @JsonIgnore
     @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER)
-    public List<PredictorPoints> predictorsPoints;
+    public Set<PredictorPoints> predictorsPoints;
 
     public Competition() {
 
