@@ -8,6 +8,8 @@ import domain.dto.CompetitionWithSecurityCode;
 import domain.dto.JoinCompetitionRequest;
 import domain.dto.MatchDetails;
 import domain.dto.web.CompetitionData;
+import domain.dto.web.CompetitionDataForAdmin;
+import domain.dto.web.CompetitionListElement;
 import domain.entity.Competition;
 import domain.entity.Match;
 import domain.entity.PredictorPoints;
@@ -23,7 +25,6 @@ import utils.PredictorSecurity;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,20 @@ public class CompetitionServices extends CommonPredictorService {
     private PredictorPointsRepository predictorPointsRepository;
 
     @BusinessLogic
+    public Result getCompetitionData(Long id) {
+        Competition competition = competitionRepository.findOne(id);
+        if (competition == null) {
+            return notFound();
+        }
+
+        if (getCurrentUser().id.equals(competition.admin.id)) {
+            return ok(new CompetitionDataForAdmin(competition));
+        }
+
+        return ok(new CompetitionData(competition));
+    }
+
+    @BusinessLogic
     public Result getCompetitionList() {
         Specifications<Competition> competitionSpecification = where(hasPredictorWithId(getCurrentUser().id));
         if (getBoolFromQueryString("createdByMe")) {
@@ -60,7 +75,7 @@ public class CompetitionServices extends CommonPredictorService {
 
         Sort nameAsc = new Sort(Sort.Direction.ASC, "name");
         Page<Competition> page = competitionRepository.findAll(competitionSpecification, getPageRequest(nameAsc));
-        List<CompetitionData> data = page.getContent().stream().map(c -> new CompetitionData(getCurrentUser().id, c))
+        List<CompetitionListElement> data = page.getContent().stream().map(c -> new CompetitionListElement(getCurrentUser().id, c))
                 .collect(Collectors.toList());
 
         return ok(new ListResponse<>(data, page.getTotalElements(), page.getTotalPages()));

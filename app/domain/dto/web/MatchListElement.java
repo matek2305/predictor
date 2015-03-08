@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by Hatake on 2015-02-10.
  */
-public class MatchData {
+public class MatchListElement {
 
     public Long id;
     public String homeTeamName;
@@ -24,7 +24,7 @@ public class MatchData {
     @JsonProperty("comeptition")
     public Long competitionId;
 
-    public MatchData(Match match) {
+    public MatchListElement(Match match) {
         this.id = match.id;
         this.homeTeamName = match.homeTeamName;
         this.awayTeamName = match.awayTeamName;

@@ -20,6 +20,10 @@ public final class MatchSpecifications {
         return (root, query, cb) -> cb.equal(root.join(Match_.competition).join(Competition_.predictorsPoints).get(PredictorPoints_.id), id);
     }
 
+    public static Specification<Match> isFromCompetitionWithId(Long id) {
+        return (root, query, cb) -> cb.equal(root.get(Match_.competition).get(Competition_.id), id);
+    }
+
     private MatchSpecifications() {
 
     }

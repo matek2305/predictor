@@ -49,6 +49,18 @@ public abstract class CommonPredictorService extends Controller {
         }
     }
 
+    protected Long getLongFromQueryString(String param) {
+        if (!request().queryString().containsKey(param)) {
+            return null;
+        }
+
+        try {
+            return Long.parseLong(request().getQueryString(param));
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
     protected boolean getBoolFromQueryString(String param) {
         return new Boolean(request().getQueryString(param)).booleanValue();
     }

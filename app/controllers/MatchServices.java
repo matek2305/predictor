@@ -8,7 +8,7 @@ import controllers.validation.ValidationContext;
 import domain.dto.CancelMatchRequest;
 import domain.dto.ExtendedMatchDetails;
 import domain.dto.MatchResultData;
-import domain.dto.web.MatchData;
+import domain.dto.web.MatchListElement;
 import domain.entity.Match;
 import domain.entity.Prediction;
 import domain.entity.PredictorPoints;
@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static domain.specification.MatchSpecifications.hasAdminWithId;
-import static domain.specification.MatchSpecifications.hasPredictorWithId;
-import static domain.specification.MatchSpecifications.hasStatus;
+import static domain.specification.MatchSpecifications.*;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
@@ -67,10 +65,15 @@ public class MatchServices extends CommonPredictorService {
             matchSpecification = matchSpecification.and(hasStatus(status.get()));
         }
 
+        Long competitionId = getLongFromQueryString("competition");
+        if (competitionId != null) {
+            matchSpecification = matchSpecification.and(isFromCompetitionWithId(competitionId));
+        }
+
         Sort startDateAsc = new Sort(Sort.Direction.ASC, "startDate");
         Page<Match> page = matchRepository.findAll(matchSpecification, getPageRequest(startDateAsc));
-        List<MatchData> data = page.getContent().stream().map(m -> {
-            MatchData matchData = new MatchData(m);
+        List<MatchListElement> data = page.getContent().stream().map(m -> {
+            MatchListElement matchData = new MatchListElement(m);
             if (getBoolFromQueryString("predictions")) {
                 m.predictions.stream().filter(p -> p.predictor.id.equals(getCurrentUser().id)).findFirst().ifPresent(p -> {
                     matchData.homeTeamScore = p.homeTeamScore;

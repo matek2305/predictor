@@ -14,6 +14,7 @@ POST           /api/user/logout                @controllers.PredictorServices.en
 POST           /api/competition/join           @controllers.CompetitionServices.joinCompetition
 POST           /api/competition/add            @controllers.CompetitionServices.createCompetition
 GET            /api/competition/list           @controllers.CompetitionServices.getCompetitionList
+GET            /api/competition/:id            @controllers.CompetitionServices.getCompetitionData(id: Long)
 
 # Prediction API
 POST           /api/prediction/add             @controllers.PredictionServices.makePrediction
