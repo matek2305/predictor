@@ -1,6 +1,5 @@
 package domain.dto.web;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.entity.Match;
 import utils.MatchUtils;
 
@@ -20,9 +19,7 @@ public class MatchListElement {
     public Date predictionLockDate;
     public Match.Status status;
     public String comments;
-
-    @JsonProperty("comeptition")
-    public Long competitionId;
+    public BasicCompetitionInfo competition;
 
     public MatchListElement(Match match) {
         this.id = match.id;
@@ -33,7 +30,7 @@ public class MatchListElement {
         this.startDate = match.startDate;
         this.predictionLockDate = MatchUtils.calculatePredictionLockTime(match.startDate);
         this.comments = match.comments;
-        this.competitionId = match.competition.id;
         this.status = match.status;
+        this.competition = new BasicCompetitionInfo(match.competition);
     }
 }

@@ -8,20 +8,17 @@ import java.util.List;
 /**
  * Created by Hatake on 2015-03-07.
  */
-public class CompetitionData {
+public class CompetitionData extends BasicCompetitionInfo {
 
-    public Long id;
-    public String name;
     public String description;
     public String admin;
     public List<CompetitionTableEntry> table;
 
     public CompetitionData(Competition competition) {
-        this.id = competition.id;
-        this.name = competition.name;
+        super(competition);
+
         this.description = competition.description;
         this.admin = competition.admin.login;
-
         this.table = CompetitionUtils.buildTable(competition.predictorsPoints);
     }
 }
