@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,9 +61,9 @@ public class MatchServices extends CommonPredictorService {
             matchSpecification = where(hasAdminWithId(getCurrentUser().id));
         }
 
-        Optional<Match.Status> status = getEnumFromQueryString("status", Match.Status.class);
-        if (status.isPresent()) {
-            matchSpecification = matchSpecification.and(hasStatus(status.get()));
+        EnumSet<Match.Status> statusSet = getEnumSetFromQueryString("status", Match.Status.class);
+        if (!statusSet.isEmpty()) {
+            matchSpecification = matchSpecification.and(hasStatusIn(statusSet));
         }
 
         Long competitionId = getLongFromQueryString("competition");

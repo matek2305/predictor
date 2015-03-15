@@ -2,6 +2,7 @@ package controllers;
 
 import domain.entity.Predictor;
 import domain.repository.PredictorRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import play.libs.Json;
@@ -19,6 +20,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  * @author Mateusz Urbański <matek2305@gmail.com>
  */
 public abstract class CommonPredictorService extends Controller {
+
+    private static final String LIST_SEPARATOR = ",";
 
     @Inject
     private PredictorRepository predictorRepository;
@@ -65,19 +68,32 @@ public abstract class CommonPredictorService extends Controller {
         return new Boolean(request().getQueryString(param)).booleanValue();
     }
 
-    protected <T extends Enum<T>> Optional<T> getEnumFromQueryString(String param, Class<T> type) {
+    protected <T extends Enum<T>> EnumSet<T> getEnumSetFromQueryString(String param, Class<T> type) {
         if (!request().queryString().containsKey(param)) {
-            return Optional.empty();
+            return EnumSet.noneOf(type);
         }
 
-        String paramValue = request().getQueryString(param);
+        String value = request().getQueryString(param);
+        if (StringUtils.isBlank(value)) {
+            return EnumSet.noneOf(type);
+        }
+
+        EnumSet<T> result = EnumSet.noneOf(type);
+        for (String elem : value.split(LIST_SEPARATOR)) {
+            result.add(parseEnumValue(elem.trim(), type));
+        }
+
+        return result;
+    }
+
+    private <T extends Enum<T>> T parseEnumValue(String value, Class<T> type) {
         for (T e : EnumSet.allOf(type)) {
-            if (e.name().equals(paramValue)) {
-                return Optional.of(e);
+            if (e.name().equals(value)) {
+                return e;
             }
         }
 
-        return Optional.empty();
+        throw new IllegalArgumentException(value + " is not valid value for " + type.getSimpleName() + " enum");
     }
 
     protected <T> T prepareRequest(Class<T> type) {

@@ -3,13 +3,16 @@ package domain.specification;
 import domain.entity.*;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.EnumSet;
+import java.util.List;
+
 /**
  * Created by Hatake on 2015-02-21.
  */
 public final class MatchSpecifications {
 
-    public static Specification<Match> hasStatus(Match.Status status) {
-        return (root, query, cb) -> cb.equal(root.get(Match_.status), status);
+    public static Specification<Match> hasStatusIn(EnumSet<Match.Status> statusList) {
+        return (root, query, cb) -> root.get(Match_.status).in(statusList);
     }
 
     public static Specification<Match> hasAdminWithId(Long id) {
