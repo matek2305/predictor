@@ -1,6 +1,7 @@
 package domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import utils.RandomIdGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -44,6 +45,10 @@ public abstract class AbstractPredictorEntity {
 
     @Override
     public int hashCode() {
+        if (id == null) {
+            id = RandomIdGenerator.generate();
+        }
+
         return id.hashCode();
     }
 }

@@ -4,7 +4,6 @@ import api.response.ListResponse;
 import controllers.validation.CreateCompetitionValidator;
 import controllers.validation.JoinCompetitionValidator;
 import domain.dto.CompetitionDetails;
-import domain.dto.CompetitionWithSecurityCode;
 import domain.dto.JoinCompetitionRequest;
 import domain.dto.MatchDetails;
 import domain.dto.web.CompetitionData;
@@ -124,6 +123,6 @@ public class CompetitionServices extends CommonPredictorService {
         predictorPoints.predictor = getCurrentUser();
         predictorPointsRepository.save(predictorPoints);
 
-        return created(new CompetitionWithSecurityCode(competition));
+        return created(new CompetitionDataForAdmin(competitionRepository.findOne(competition.id)));
     }
 }

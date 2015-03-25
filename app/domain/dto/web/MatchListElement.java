@@ -8,9 +8,8 @@ import java.util.Date;
 /**
  * Created by Hatake on 2015-02-10.
  */
-public class MatchListElement {
+public class MatchListElement extends AbstractEntityData {
 
-    public Long id;
     public String homeTeamName;
     public String awayTeamName;
     public Integer homeTeamScore;
@@ -22,7 +21,8 @@ public class MatchListElement {
     public BasicCompetitionInfo competition;
 
     public MatchListElement(Match match) {
-        this.id = match.id;
+        super(match.id);
+
         this.homeTeamName = match.homeTeamName;
         this.awayTeamName = match.awayTeamName;
         this.homeTeamScore = match.homeTeamScore >= 0 ? match.homeTeamScore : null;
