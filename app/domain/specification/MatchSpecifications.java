@@ -20,7 +20,8 @@ public final class MatchSpecifications {
     }
 
     public static Specification<Match> hasPredictorWithId(Long id) {
-        return (root, query, cb) -> cb.equal(root.join(Match_.competition).join(Competition_.predictorsPoints).get(PredictorPoints_.id), id);
+        return (root, query, cb) -> cb.equal(root.join(Match_.competition).join(Competition_.predictorsPoints).get(PredictorPoints_.predictor)
+                .get(Predictor_.id), id);
     }
 
     public static Specification<Match> isFromCompetitionWithId(Long id) {
