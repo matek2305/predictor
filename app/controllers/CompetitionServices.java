@@ -14,11 +14,13 @@ import domain.entity.Match;
 import domain.entity.PredictorPoints;
 import domain.repository.CompetitionRepository;
 import domain.repository.PredictorPointsRepository;
+import org.springframework.beans.factory.config.YamlProcessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import play.mvc.Result;
 import utils.BusinessLogic;
+import utils.MatchUtils;
 import utils.PredictorSecurity;
 
 import javax.inject.Inject;
@@ -32,6 +34,7 @@ import static domain.specification.CompetitionSpecifications.hasAdminWithId;
 import static domain.specification.CompetitionSpecifications.hasPredictorWithId;
 import static org.springframework.data.jpa.domain.Specifications.not;
 import static org.springframework.data.jpa.domain.Specifications.where;
+import static utils.MatchUtils.calculateStatus;
 
 /**
  * Competition services controller.
@@ -106,7 +109,7 @@ public class CompetitionServices extends CommonPredictorService {
 
         for (MatchDetails matchDetails : competitionDetails.matches) {
             Match match = new Match(matchDetails);
-            match.status = Match.Status.OPEN_FOR_PREDICTION;
+            match.status = calculateStatus(match.startDate);
             match.competition = competition;
 
             if (competition.matches == null) {

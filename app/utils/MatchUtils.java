@@ -66,6 +66,20 @@ public final class MatchUtils {
         return PredictorSettings.getInt(PredictorSettings.Setting.PREDICTION_MISSED_POINTS);
     }
 
+    public static Match.Status calculateStatus(Date matchStartDate) {
+        LocalDateTime preparedStartDate = calculatePredictionLockTime(DateHelper.toLocalDateTime(matchStartDate));
+        return calculateStatus(preparedStartDate);
+    }
+
+    public static Match.Status calculateStatus(LocalDateTime matchStartDate) {
+        LocalDateTime predictionLock = calculatePredictionLockTime(matchStartDate);
+        if (LocalDateTime.now().isBefore(predictionLock)) {
+            return Match.Status.OPEN_FOR_PREDICTION;
+        }
+
+        return Match.Status.PREDICTION_CLOSED;
+    }
+
     public static Date calculatePredictionLockTime(Date matchStartDate) {
         LocalDateTime predictionLockTime = calculatePredictionLockTime(DateHelper.toLocalDateTime(matchStartDate));
         return DateHelper.toDate(predictionLockTime);
