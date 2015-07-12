@@ -5,6 +5,7 @@ import domain.entity.Predictor;
 import domain.entity.PredictorPoints;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -32,7 +33,7 @@ public class CompetitionUtilsTest {
 
     private Competition createCompetition() {
         Competition competition = new Competition();
-        competition.predictorsPoints = new LinkedList<>();
+        competition.predictorsPoints = new HashSet<>();
         competition.predictorsPoints.add(createPredictorPoints(1L, 23));
         competition.predictorsPoints.add(createPredictorPoints(2L, 3));
         competition.predictorsPoints.add(createPredictorPoints(3L, 26));

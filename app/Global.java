@@ -4,7 +4,6 @@ import controllers.actors.MatchScannerServiceActor;
 import controllers.validation.BusinessValidator;
 import controllers.validation.EmptyValidator;
 import controllers.validation.ValidationResult;
-import filters.CorsFilter;
 import domain.repository.MatchRepository;
 import domain.repository.PredictorRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -163,11 +162,6 @@ public class Global extends GlobalSettings {
     @Override
     public <A> A getControllerInstance(Class<A> aClass) {
         return ctx.getBean(aClass);
-    }
-
-    @Override
-    public <T extends EssentialFilter> Class<T>[] filters() {
-        return new Class[] { CorsFilter.class };
     }
 
     /**

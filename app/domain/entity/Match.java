@@ -91,7 +91,7 @@ public class Match extends AbstractPredictorEntity {
     /**
      * Match status.
      */
-    public static enum Status {
+    public enum Status {
         OPEN_FOR_PREDICTION,
         PREDICTION_CLOSED,
         RESULT_AVAILABLE,

@@ -6,7 +6,6 @@ import play.db.jpa.JPA;
 import play.libs.Yaml;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.*;
 
 import static java.lang.String.format;
@@ -46,7 +45,7 @@ public class InitialDataManager {
         List<Object> entities = getDataMap(data.getData()).get(data.getData().name());
         persist(entities);
 
-        Logger.debug(format("%s: %s rows inserted", data.getTarget().getSimpleName(), entities.size()));
+        Logger.debug("%s: %s rows inserted", data.getTarget().getSimpleName(), entities.size());
     }
 
     private <T> void persist(List<T> entities) {
@@ -74,7 +73,7 @@ public class InitialDataManager {
     private void dropData(InitialDataWrapper data) {
         String query = format(DROP_DATA_FROM_TABLE_PATTERN, data.getTarget().getSimpleName());
         int droppedCount = JPA.em().createQuery(query).executeUpdate();
-        Logger.debug(format("%s: dropped %s rows", data.getTarget().getSimpleName(), droppedCount));
+        Logger.debug("%s: dropped %s rows", data.getTarget().getSimpleName(), droppedCount);
     }
 
     private Map<String, List<Object>> getDataMap(InitialData initialData) {
@@ -84,15 +83,6 @@ public class InitialDataManager {
         }
 
         return filesDataMap.get(initialData.fileName());
-    }
-
-    private String getTableName(Class<?> entityClass) {
-        if (entityClass.isAnnotationPresent(Table.class)) {
-            return entityClass.getAnnotation(Table.class).name();
-        }
-
-        Logger.warn(format("No table name specified for %s entity, using default.", entityClass.getSimpleName()));
-        return entityClass.getSimpleName();
     }
 
     private static class InitialDataWrapper {

@@ -30,7 +30,7 @@ public class MatchUtilsTest {
     }
 
     @Test
-     public void testCalculatePointsHomeTeamWin() {
+    public void testCalculatePointsHomeTeamWin() {
         Match homeTeamWin = createMatch(3, 1);
 
         assertEquals(7, MatchUtils.calculatePointsForPrediction(homeTeamWin, createPrediction(3, 1)));

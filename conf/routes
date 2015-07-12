@@ -29,6 +29,3 @@ GET            /api/match/list                 @controllers.MatchServices.getMat
 
 # Map static resources from the /public folder to the /assets URL path
 GET            /assets/*file                   controllers.Assets.at(path="/public", file)
-
-# Options
-OPTIONS        /*all                           controllers.Application.preflight(all)
