@@ -19,7 +19,8 @@ libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-math3" % "3.3",
     "org.apache.commons" % "commons-lang3" % "3.3.2",
     "junit" % "junit" % "4.12" % "test",
-    "org.mockito" % "mockito-core" % "1.10.19" % "test"
+    "org.mockito" % "mockito-core" % "1.10.19" % "test",
+    "com.jayway.restassured" % "rest-assured" % "2.4.1" % "test"
 )
 
 //javacOptions ++= Seq("-s", "app")
