@@ -20,7 +20,6 @@ public class PredictorSecurity {
     public static final String AUTH_TOKEN_HEADER = "Predictor-Authentication-Token";
 
     private static final int AUTH_TOKEN_LENGTH = 32;
-    private static final int COMPETITION_CODE_LENGTH = 6;
 
     private PredictorRepository predictorRepository;
 
@@ -62,7 +61,8 @@ public class PredictorSecurity {
     }
 
     public static String generateCompetitionCode() {
-        return RandomStringUtils.randomNumeric(COMPETITION_CODE_LENGTH);
+        final int length = PredictorSettings.getInt(PredictorSettings.Setting.COMPETITION_SECURITY_CODE_LENGTH);
+        return RandomStringUtils.randomAlphanumeric(length);
     }
 
     public enum Status {
@@ -75,7 +75,7 @@ public class PredictorSecurity {
 
         private final String statusReasonHeaderValue;
 
-        private Status(String statusReasonHeaderValue) {
+        Status(final String statusReasonHeaderValue) {
             this.statusReasonHeaderValue = statusReasonHeaderValue;
         }
 

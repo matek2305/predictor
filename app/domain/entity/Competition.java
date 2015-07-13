@@ -28,7 +28,7 @@ public class Competition extends AbstractPredictorEntity {
     public String description;
 
     @JsonIgnore
-    @Column(name = "security_code", nullable = false)
+    @Column(name = "security_code", nullable = false, unique = true)
     public String securityCode;
 
     /**

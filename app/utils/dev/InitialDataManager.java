@@ -45,7 +45,7 @@ public class InitialDataManager {
         List<Object> entities = getDataMap(data.getData()).get(data.getData().name());
         persist(entities);
 
-        Logger.debug("%s: %s rows inserted", data.getTarget().getSimpleName(), entities.size());
+        Logger.debug("{}: {} rows inserted", data.getTarget().getSimpleName(), entities.size());
     }
 
     private <T> void persist(List<T> entities) {
@@ -59,7 +59,7 @@ public class InitialDataManager {
         Set<Class<?>> initialDataClasses = reflections.getTypesAnnotatedWith(InitialData.class);
         for (Class<?> initialDataClass : initialDataClasses) {
             if (!initialDataClass.isAnnotationPresent(Entity.class)) {
-                Logger.warn("Skipping initial data for class: " + initialDataClass.getSimpleName() + "! Marked class must be an entity.");
+                Logger.warn("Skipping initial data for class: {}! Marked class must be an entity.", initialDataClass.getSimpleName());
                 continue;
             }
 
@@ -73,7 +73,7 @@ public class InitialDataManager {
     private void dropData(InitialDataWrapper data) {
         String query = format(DROP_DATA_FROM_TABLE_PATTERN, data.getTarget().getSimpleName());
         int droppedCount = JPA.em().createQuery(query).executeUpdate();
-        Logger.debug("%s: dropped %s rows", data.getTarget().getSimpleName(), droppedCount);
+        Logger.debug("{}: dropped {} rows", data.getTarget().getSimpleName(), droppedCount);
     }
 
     private Map<String, List<Object>> getDataMap(InitialData initialData) {

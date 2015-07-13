@@ -29,37 +29,37 @@ competition:
 - &lm1415 !!domain.entity.Competition
     id:                 1
     name:               Liga Mistrzów 2014/15
-    securityCode:       123456
+    securityCode:       01234567
     admin:              *mateusz
 
 - &pl1415 !!domain.entity.Competition
     id:                 2
     name:               Premier League 2014/15
-    securityCode:       123456
+    securityCode:       12345678
     admin:              *mateusz
 
 - &pd1415 !!domain.entity.Competition
     id:                 3
     name:               Primera Division 2014/15
-    securityCode:       123456
+    securityCode:       23456781
     admin:              *mateusz
 
 - &tme1415 !!domain.entity.Competition
     id:                 4
     name:               T-Mobile Ekstraklasa 2014/15
-    securityCode:       123456
+    securityCode:       34567812
     admin:              *mateusz
 
 - &bl1415 !!domain.entity.Competition
     id:                 5
     name:               Bundesliga 2014/15
-    securityCode:       123456
+    securityCode:       45678123
     admin:              *mateusz
 
 - &sa1415 !!domain.entity.Competition
     id:                 6
     name:               Serie A 2014/15
-    securityCode:       123456
+    securityCode:       56781234
     admin:              *mateusz
 
 matches:

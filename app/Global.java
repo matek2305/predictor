@@ -112,6 +112,20 @@ public class Global extends GlobalSettings {
 
     @Override
     public Action onRequest(Http.Request request, Method method) {
+        Logger.debug("Received request for " + request.uri());
+
+        long start = System.currentTimeMillis();
+        Action result = onRequestInternal(request, method);
+        long elapsed = System.currentTimeMillis() - start;
+
+        Logger.debug("Request for {} handled in {} ms", request.uri(), elapsed);
+
+        return result;
+    }
+
+    private Action onRequestInternal(Http.Request request, Method method) {
+        currentLogic = null;
+
         if (!method.isAnnotationPresent(BusinessLogic.class)) {
             return super.onRequest(request, method);
         }
@@ -148,10 +162,12 @@ public class Global extends GlobalSettings {
     }
 
     private Action onValidationFailed(ValidationResult result) {
+        result.getMessages().forEach(m -> Logger.error("Validation failed: " + m));
         return BadRequestAction.fromValidationResult(result);
     }
 
     private Action onAuthenticationFailed(PredictorSecurity.Status status) {
+        Logger.error("Authentication failed: " + status.getStatusReasonHeaderValue());
         return BadRequestAction.fromAuthenticationStatus(status);
     }
 

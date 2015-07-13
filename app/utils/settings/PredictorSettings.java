@@ -7,7 +7,7 @@ package utils.settings;
  */
 public final class PredictorSettings {
 
-    public static enum Setting {
+    public enum Setting {
 
         /**
          * Authentication token expiration time (in minutes).
@@ -22,26 +22,32 @@ public final class PredictorSettings {
         /**
          * Amount of points for precise prediction.
          */
-        PREDICTION_FULL_POINTS("prediction.points.full"),
+        PREDICTION_FULL_POINTS("prediction-points-full"),
 
         /**
          * Amount of points for match winner prediction.
          */
-        PREDICTION_WINNER_POINTS("prediction.points.winner"),
+        PREDICTION_WINNER_POINTS("prediction-points-winner"),
 
         /**
          * Amount of points for draw prediction.
          */
-        PREDICTION_DRAW_POINTS("prediction.points.draw"),
+        PREDICTION_DRAW_POINTS("prediction-points-draw"),
 
         /**
          * Amount of points for missed prediction.
          */
-        PREDICTION_MISSED_POINTS("prediction.points.missed");
+        PREDICTION_MISSED_POINTS("prediction-points-missed"),
+
+        /**
+         * Competition secuirty code length.
+         */
+        COMPETITION_SECURITY_CODE_LENGTH("competititon-security-code-length")
+        ;
 
         private final String name;
 
-        private Setting(final String name) {
+        Setting(final String name) {
             this.name = name;
         }
 
